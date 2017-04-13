@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Ticket To Ride Scoreboard</string>
+    <string name="startingPlayersTxt">"Enter number of players"</string>
+    <string name="startingTrainsTxt">"Enter number of starting trains"</string>
+    <string name="startingStationsTxt">"Enter number of starting stations"</string>
+    <string name="playTrainBtn">"PLAYED - TRAINS"</string>
+    <string name="playStnBtn">"PLAYED - STATION"</string>
+    <string name="pickupRoutesBtn">"PICKUP - ROUTE CARDS"</string>
+    <string name="pickupTrainsBtn">"PICKUP - TRAIN CARDS"</string>
+    <string name="endGameBtn">"END GAME"</string>
+    <string name="selectActionTxt">"SELECT PLAYER ACTION"</string>
+    <string name="scoreTxt">"SCORE : "</string>
+    <string name="trainsTxt">"TRAINS : "</string>
+    <string name="stationsTxt">"STATIONS : "</string>
 </resources>

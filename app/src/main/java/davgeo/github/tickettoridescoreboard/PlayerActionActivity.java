@@ -14,6 +14,7 @@ public class PlayerActionActivity extends AppCompatActivity {
     int m_noPlayers;
     int m_turnNo;
     int [][] m_scoreboardArray;
+
     // TODO : Save this state if app is killed
 
     @Override
@@ -41,21 +42,28 @@ public class PlayerActionActivity extends AppCompatActivity {
         // Player score - scoreboardArray[playerNum-1][0]
         // Remaining trains - scoreboardArray[playerNum-1][1]
         // Remaining stations - scoreboardArray[playerNum-1][2]
-        // Turn no. - scoreboardArray[playerNum-1][3]
+        int idx = m_PlayerNum - 1;
 
-        // Do display
-        TextView testTxt = (TextView) findViewById(R.id.testTxt);
-        testTxt.setText(String.format(Locale.getDefault(), "%d/%d - %d - %d",
-                m_PlayerNum, m_noPlayers, m_scoreboardArray[m_PlayerNum-1][0], m_turnNo));
+        TextView nameTxt = (TextView) findViewById(R.id.playerName);
+        nameTxt.setText(String.format(Locale.getDefault(), "PLAYER %d", m_PlayerNum));
 
-        // Increment turn number and keep intent synchronised
+        TextView scoreTxt = (TextView) findViewById(R.id.scoreValueTxt);
+        scoreTxt.setText(String.format(Locale.getDefault(), "%d", m_scoreboardArray[idx][0]));
+
+        TextView trainTxt = (TextView) findViewById(R.id.trainsValueTxt);
+        trainTxt.setText(String.format(Locale.getDefault(), "%d", m_scoreboardArray[idx][1]));
+
+        TextView stationTxt = (TextView) findViewById(R.id.stationsValueTxt);
+        stationTxt.setText(String.format(Locale.getDefault(), "%d", m_scoreboardArray[idx][2]));
+
+        // Increment turn number if on last player
         if(m_PlayerNum == m_noPlayers) {
             m_turnNo++;
         }
     }
 
-    /** Called when user clicks a pickup route/train cards button */
-    public void pickupCards(View view) {
+    /** Load next player **/
+    protected void goToNextPlayer() {
         m_PlayerNum++;
 
         if(m_PlayerNum > m_noPlayers) {
@@ -63,5 +71,28 @@ public class PlayerActionActivity extends AppCompatActivity {
         }
 
         displayPlayerStats();
+    }
+
+    /** Called when user clicks a pickup route/train cards button */
+    public void pickupCards(View view) {
+        goToNextPlayer();
+    }
+
+    /** Called when user clicks played trains button **/
+    public void playedTrains(View view) {
+        m_scoreboardArray[m_PlayerNum-1][0] += 1;
+        m_scoreboardArray[m_PlayerNum-1][1] -= 1;
+        goToNextPlayer();
+    }
+
+    /** Called when user clicks played stations button **/
+    public void playedStations(View view) {
+        m_scoreboardArray[m_PlayerNum-1][2] -= 1;
+        goToNextPlayer();
+    }
+
+    /** Called when the End Game button is pressed **/
+    public void endGame(View view) {
+        goToNextPlayer();
     }
 }
