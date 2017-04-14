@@ -7,8 +7,10 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -84,6 +86,26 @@ public class PlayerActionActivity extends AppCompatActivity {
         displayPlayerStats();
     }
 
+    /** Call to configure buttons in played trains dialog **/
+    protected void setPlayedTrainButtonTxt(Button button, final AlertDialog dialog) {
+        Resources res = getResources();
+        int[] routeScoreArray = res.getIntArray(R.array.trainScores);
+        int buttonTag = Integer.parseInt(button.getTag().toString());
+
+        // Update button text
+        button.setText(res.getString(R.string.playedTrainsDialogBtn,
+                buttonTag, routeScoreArray[buttonTag-1]));
+
+        // Update onClick method to call scoreTrains function and then dismiss dialog
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scoreTrains(view);
+                dialog.dismiss();
+            }
+        });
+    }
+
     /** Called when user clicks a pickup route/train cards button */
     public void pickupCards(View view) {
         goToNextPlayer();
@@ -91,10 +113,29 @@ public class PlayerActionActivity extends AppCompatActivity {
 
     /** Called when user clicks played trains button **/
     public void playedTrains(View view) {
-        // TODO : Create train selection activity
-        m_scoreboardArray[m_PlayerNum-1][0] += 1;
-        m_scoreboardArray[m_PlayerNum-1][1] -= 1;
-        goToNextPlayer();
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+
+        // Load dialog from custom layout xml
+        LayoutInflater inflater = this.getLayoutInflater();
+        alertBuilder.setView(inflater.inflate(R.layout.played_trains_dialog, null))
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        final AlertDialog playedTrainsDialog = alertBuilder.create();
+        playedTrainsDialog.show();
+
+        // Configure each button
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn1), playedTrainsDialog);
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn2), playedTrainsDialog);
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn3), playedTrainsDialog);
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn4), playedTrainsDialog);
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn5), playedTrainsDialog);
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn6), playedTrainsDialog);
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn7), playedTrainsDialog);
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn8), playedTrainsDialog);
     }
 
     /** Called when user clicks played stations button **/
@@ -151,5 +192,16 @@ public class PlayerActionActivity extends AppCompatActivity {
 
         AlertDialog editPlayerNameDialog = alertBuilder.create();
         editPlayerNameDialog.show();
+    }
+
+    /** Called when a button is clicked from played trains dialog **/
+    public void scoreTrains(View view) {
+        int trainCount = Integer.parseInt(view.getTag().toString());
+        int[] routeScoreArray = getResources().getIntArray(R.array.trainScores);
+
+        m_scoreboardArray[m_PlayerNum-1][0] += routeScoreArray[trainCount-1];
+        m_scoreboardArray[m_PlayerNum-1][1] -= trainCount;
+
+        goToNextPlayer();
     }
 }

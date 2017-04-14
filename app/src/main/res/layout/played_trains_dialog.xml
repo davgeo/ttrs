@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/dialog_margin"
+        android:paddingRight="@dimen/dialog_margin"
+        android:paddingTop="@dimen/dialog_margin">
+
+        <TextView
+            android:id="@+id/playedTrainsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/playedTrainsTitle"
+            android:textAllCaps="true"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/playedTrainsBtn1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/playedTrainsDialogBtn"
+            android:onClick="scoreTrains"
+            android:typeface="monospace"
+            android:tag="1" />
+
+        <Button
+            android:id="@+id/playedTrainsBtn2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/playedTrainsDialogBtn"
+            android:onClick="scoreTrains"
+            android:typeface="monospace"
+            android:tag="2" />
+
+        <Button
+            android:id="@+id/playedTrainsBtn3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/playedTrainsDialogBtn"
+            android:onClick="scoreTrains"
+            android:typeface="monospace"
+            android:tag="3" />
+
+        <Button
+            android:id="@+id/playedTrainsBtn4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/playedTrainsDialogBtn"
+            android:onClick="scoreTrains"
+            android:typeface="monospace"
+            android:tag="4" />
+
+        <Button
+            android:id="@+id/playedTrainsBtn5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/playedTrainsDialogBtn"
+            android:onClick="scoreTrains"
+            android:typeface="monospace"
+            android:tag="5" />
+
+        <Button
+            android:id="@+id/playedTrainsBtn6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/playedTrainsDialogBtn"
+            android:onClick="scoreTrains"
+            android:typeface="monospace"
+            android:tag="6" />
+
+        <Button
+            android:id="@+id/playedTrainsBtn7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/playedTrainsDialogBtn"
+            android:onClick="scoreTrains"
+            android:typeface="monospace"
+            android:tag="7" />
+
+        <Button
+            android:id="@+id/playedTrainsBtn8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/playedTrainsDialogBtn"
+            android:onClick="scoreTrains"
+            android:typeface="monospace"
+            android:tag="8" />
+    </LinearLayout>
+</FrameLayout>

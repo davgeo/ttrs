@@ -13,4 +13,6 @@
     <string name="trainsTxt">"TRAINS : "</string>
     <string name="stationsTxt">"STATIONS : "</string>
     <string name="playerNameDialog">"Change player name"</string>
+    <string name="playedTrainsTitle">"Select route length"</string>
+    <string name="playedTrainsDialogBtn">"TRAINS : %1$d (SCORE : %2$2d)"</string>
 </resources>
