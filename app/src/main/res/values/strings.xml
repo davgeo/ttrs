@@ -8,7 +8,7 @@
     <string name="pickupRoutesBtn">"PICKUP - ROUTE CARDS"</string>
     <string name="pickupTrainsBtn">"PICKUP - TRAIN CARDS"</string>
     <string name="endGameBtn">"END GAME"</string>
-    <string name="selectActionTxt">"SELECT PLAYER ACTION"</string>
+    <string name="selectActionTxt">"SELECT PLAYER %1$d ACTION"</string>
     <string name="scoreTxt">"SCORE : "</string>
     <string name="trainsTxt">"TRAINS : "</string>
     <string name="stationsTxt">"STATIONS : "</string>

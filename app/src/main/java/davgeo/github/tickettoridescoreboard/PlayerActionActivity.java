@@ -1,10 +1,14 @@
 package davgeo.github.tickettoridescoreboard;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -13,6 +17,7 @@ public class PlayerActionActivity extends AppCompatActivity {
     int m_PlayerNum;
     int m_noPlayers;
     int m_turnNo;
+    String [] m_playerNameArray;
     int [][] m_scoreboardArray;
 
     // TODO : Save this state if app is killed
@@ -31,6 +36,7 @@ public class PlayerActionActivity extends AppCompatActivity {
 
         Bundle scoreboardBundle = thisIntent.getExtras();
         m_scoreboardArray = (int[][]) scoreboardBundle.getSerializable("scoreboardArray");
+        m_playerNameArray = (String[]) scoreboardBundle.getSerializable("playerNameArray");
 
         // TODO : Sanity check settings (legal values)
 
@@ -45,7 +51,7 @@ public class PlayerActionActivity extends AppCompatActivity {
         int idx = m_PlayerNum - 1;
 
         TextView nameTxt = (TextView) findViewById(R.id.playerName);
-        nameTxt.setText(String.format(Locale.getDefault(), "PLAYER %d", m_PlayerNum));
+        nameTxt.setText(m_playerNameArray[idx]);
 
         TextView scoreTxt = (TextView) findViewById(R.id.scoreValueTxt);
         scoreTxt.setText(String.format(Locale.getDefault(), "%d", m_scoreboardArray[idx][0]));
@@ -55,6 +61,12 @@ public class PlayerActionActivity extends AppCompatActivity {
 
         TextView stationTxt = (TextView) findViewById(R.id.stationsValueTxt);
         stationTxt.setText(String.format(Locale.getDefault(), "%d", m_scoreboardArray[idx][2]));
+
+        Resources res = getResources();
+        String actionString = res.getString(R.string.selectActionTxt, m_PlayerNum);
+
+        TextView actionTxt = (TextView) findViewById(R.id.selectActionTxt);
+        actionTxt.setText(actionString);
 
         // Increment turn number if on last player
         if(m_PlayerNum == m_noPlayers) {
@@ -94,5 +106,36 @@ public class PlayerActionActivity extends AppCompatActivity {
     /** Called when the End Game button is pressed **/
     public void endGame(View view) {
         goToNextPlayer();
+    }
+
+    /** Edit player name **/
+    public void editName(View view) {
+        final EditText alertEditTxt = new EditText(this);
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setMessage("Edit player name");
+        alertBuilder.setCancelable(true);
+        alertBuilder.setView(alertEditTxt);
+
+        alertBuilder.setPositiveButton(
+                "Accept",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        m_playerNameArray[m_PlayerNum-1] = alertEditTxt.getText().toString();
+                        TextView nameTxt = (TextView) findViewById(R.id.playerName);
+                        nameTxt.setText(m_playerNameArray[m_PlayerNum-1]);
+                        dialog.cancel();
+                    }
+                });
+
+        alertBuilder.setNegativeButton(
+                "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = alertBuilder.create();
+        alert11.show();
     }
 }

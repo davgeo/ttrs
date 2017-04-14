@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -32,17 +34,20 @@ public class MainActivity extends AppCompatActivity {
 
         // Create player-specific settings
         int [][] scoreboardArray = new int [noPlayersInt][3];
+        String [] playerNameArray = new String[noPlayersInt];
 
         // Configure array
         for(int i=0; i < noPlayersInt; i++) {
             scoreboardArray[i][0] = 0; // Player Score
             scoreboardArray[i][1] = noStartingTrainsInt; // Remaining Trains
             scoreboardArray[i][2] = noStartingStationsInt; // Remaining Stations
+            playerNameArray[i]    = String.format(Locale.getDefault(), "PLAYER %d", i+1);
         }
 
         // Add array to intent as bundle
         Bundle scoreboardBundle = new Bundle();
         scoreboardBundle.putSerializable("scoreboardArray", scoreboardArray);
+        scoreboardBundle.putSerializable("playerNameArray", playerNameArray);
         intent.putExtras(scoreboardBundle);
 
         // Start next activity
