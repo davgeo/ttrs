@@ -12,4 +12,5 @@
     <string name="scoreTxt">"SCORE : "</string>
     <string name="trainsTxt">"TRAINS : "</string>
     <string name="stationsTxt">"STATIONS : "</string>
+    <string name="playerNameDialog">"Change player name"</string>
 </resources>

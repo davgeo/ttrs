@@ -6,9 +6,11 @@ import android.content.res.Resources;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.InputFilter;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -38,8 +40,6 @@ public class PlayerActionActivity extends AppCompatActivity {
         m_scoreboardArray = (int[][]) scoreboardBundle.getSerializable("scoreboardArray");
         m_playerNameArray = (String[]) scoreboardBundle.getSerializable("playerNameArray");
 
-        // TODO : Sanity check settings (legal values)
-
         displayPlayerStats();
     }
 
@@ -62,8 +62,7 @@ public class PlayerActionActivity extends AppCompatActivity {
         TextView stationTxt = (TextView) findViewById(R.id.stationsValueTxt);
         stationTxt.setText(String.format(Locale.getDefault(), "%d", m_scoreboardArray[idx][2]));
 
-        Resources res = getResources();
-        String actionString = res.getString(R.string.selectActionTxt, m_PlayerNum);
+        String actionString = getResources().getString(R.string.selectActionTxt, m_PlayerNum);
 
         TextView actionTxt = (TextView) findViewById(R.id.selectActionTxt);
         actionTxt.setText(actionString);
@@ -92,6 +91,7 @@ public class PlayerActionActivity extends AppCompatActivity {
 
     /** Called when user clicks played trains button **/
     public void playedTrains(View view) {
+        // TODO : Create train selection activity
         m_scoreboardArray[m_PlayerNum-1][0] += 1;
         m_scoreboardArray[m_PlayerNum-1][1] -= 1;
         goToNextPlayer();
@@ -106,15 +106,29 @@ public class PlayerActionActivity extends AppCompatActivity {
     /** Called when the End Game button is pressed **/
     public void endGame(View view) {
         goToNextPlayer();
+
+        // TODO : Create end game activity
     }
+
+    // TODO : Add settings button and activity
 
     /** Edit player name **/
     public void editName(View view) {
         final EditText alertEditTxt = new EditText(this);
+        alertEditTxt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(15)});
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage("Edit player name");
+        alertBuilder.setMessage(getResources().getString(R.string.playerNameDialog));
         alertBuilder.setCancelable(true);
-        alertBuilder.setView(alertEditTxt);
+
+        FrameLayout alertEditTxtContainer = new FrameLayout(this);
+        FrameLayout.LayoutParams params = new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+        params.rightMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+
+        alertEditTxt.setLayoutParams(params);
+
+        alertEditTxtContainer.addView(alertEditTxt);
+        alertBuilder.setView(alertEditTxtContainer);
 
         alertBuilder.setPositiveButton(
                 "Accept",
@@ -135,7 +149,7 @@ public class PlayerActionActivity extends AppCompatActivity {
                     }
                 });
 
-        AlertDialog alert11 = alertBuilder.create();
-        alert11.show();
+        AlertDialog editPlayerNameDialog = alertBuilder.create();
+        editPlayerNameDialog.show();
     }
 }

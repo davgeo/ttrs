@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("noPlayers", noPlayersInt);
         intent.putExtra("nextPlayer", 1);
 
+        // TODO : Sanity check entries (legal values)
+
         // Create player-specific settings
         int [][] scoreboardArray = new int [noPlayersInt][3];
         String [] playerNameArray = new String[noPlayersInt];
