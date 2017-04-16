@@ -24,13 +24,11 @@ import android.widget.TextView;
 import java.util.Locale;
 
 public class PlayerActionActivity extends AppCompatActivity {
-    int m_PlayerNum;
+    int m_playerNum;
     int m_noPlayers;
     int m_turnNo;
     String [] m_playerNameArray;
     int [][] m_scoreboardArray;
-
-    // TODO : Save this state if app is killed
 
     /** Called when activity is created **/
     @Override
@@ -41,18 +39,34 @@ public class PlayerActionActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
-        Intent thisIntent = getIntent();
-
-        // Player settings
-        m_PlayerNum = thisIntent.getIntExtra("nextPlayer", 1);
-        m_noPlayers = thisIntent.getIntExtra("noPlayers", 1);
-        m_turnNo = thisIntent.getIntExtra("turnNo", 0);
-
-        Bundle scoreboardBundle = thisIntent.getExtras();
-        m_scoreboardArray = (int[][]) scoreboardBundle.getSerializable("scoreboardArray");
-        m_playerNameArray = (String[]) scoreboardBundle.getSerializable("playerNameArray");
+        if(savedInstanceState != null) {
+            m_playerNum = savedInstanceState.getInt("playerNum");
+            m_noPlayers = savedInstanceState.getInt("noPlayers");
+            m_turnNo = savedInstanceState.getInt("turnNo");
+            m_playerNameArray = savedInstanceState.getStringArray("playerNameArray");
+            m_scoreboardArray = (int[][]) savedInstanceState.getSerializable("scoreboardArray");
+        } else {
+            Intent thisIntent = getIntent();
+            m_playerNum = thisIntent.getIntExtra("nextPlayer", 1);
+            m_noPlayers = thisIntent.getIntExtra("noPlayers", 1);
+            m_turnNo = thisIntent.getIntExtra("turnNo", 0);
+            Bundle scoreboardBundle = thisIntent.getExtras();
+            m_playerNameArray = scoreboardBundle.getStringArray("playerNameArray");
+            m_scoreboardArray = (int[][]) scoreboardBundle.getSerializable("scoreboardArray");
+        }
 
         displayPlayerStats();
+    }
+
+    /** Save state when activity is destroyed **/
+    @Override
+    public void onSaveInstanceState(Bundle saveState) {
+        saveState.putInt("playerNum", m_playerNum);
+        saveState.putInt("noPlayers", m_noPlayers);
+        saveState.putInt("turnNo", m_turnNo);
+        saveState.putStringArray("playerNameArray", m_playerNameArray);
+        saveState.putSerializable("scoreboardArray", m_scoreboardArray);
+        super.onSaveInstanceState(saveState);
     }
 
     /** Add menu options to toolbar **/
@@ -152,7 +166,7 @@ public class PlayerActionActivity extends AppCompatActivity {
         // Player score - scoreboardArray[playerNum-1][0]
         // Remaining trains - scoreboardArray[playerNum-1][1]
         // Remaining stations - scoreboardArray[playerNum-1][2]
-        int idx = m_PlayerNum - 1;
+        int idx = m_playerNum - 1;
 
         TextView nameTxt = (TextView) findViewById(R.id.playerName);
         nameTxt.setText(m_playerNameArray[idx]);
@@ -166,23 +180,23 @@ public class PlayerActionActivity extends AppCompatActivity {
         TextView stationTxt = (TextView) findViewById(R.id.stationsValueTxt);
         stationTxt.setText(String.format(Locale.getDefault(), "%d", m_scoreboardArray[idx][2]));
 
-        String actionString = getResources().getString(R.string.selectActionTxt, m_PlayerNum);
+        String actionString = getResources().getString(R.string.selectActionTxt, m_playerNum);
 
         TextView actionTxt = (TextView) findViewById(R.id.selectActionTxt);
         actionTxt.setText(actionString);
 
         // Increment turn number if on last player
-        if(m_PlayerNum == m_noPlayers) {
+        if(m_playerNum == m_noPlayers) {
             m_turnNo++;
         }
     }
 
     /** Load next player **/
     protected void goToNextPlayer() {
-        m_PlayerNum++;
+        m_playerNum++;
 
-        if(m_PlayerNum > m_noPlayers) {
-            m_PlayerNum = 1;
+        if(m_playerNum > m_noPlayers) {
+            m_playerNum = 1;
         }
 
         displayPlayerStats();
@@ -242,7 +256,7 @@ public class PlayerActionActivity extends AppCompatActivity {
 
     /** Called when user clicks played stations button **/
     public void playedStations(View view) {
-        m_scoreboardArray[m_PlayerNum-1][2] -= 1;
+        m_scoreboardArray[m_playerNum-1][2] -= 1;
         goToNextPlayer();
     }
 
@@ -277,9 +291,9 @@ public class PlayerActionActivity extends AppCompatActivity {
                 "Accept",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        m_playerNameArray[m_PlayerNum-1] = alertEditTxt.getText().toString();
+                        m_playerNameArray[m_playerNum-1] = alertEditTxt.getText().toString();
                         TextView nameTxt = (TextView) findViewById(R.id.playerName);
-                        nameTxt.setText(m_playerNameArray[m_PlayerNum-1]);
+                        nameTxt.setText(m_playerNameArray[m_playerNum-1]);
                         dialog.cancel();
                     }
                 });
@@ -301,8 +315,8 @@ public class PlayerActionActivity extends AppCompatActivity {
         int trainCount = Integer.parseInt(view.getTag().toString());
         int[] routeScoreArray = getResources().getIntArray(R.array.trainScores);
 
-        m_scoreboardArray[m_PlayerNum-1][0] += routeScoreArray[trainCount-1];
-        m_scoreboardArray[m_PlayerNum-1][1] -= trainCount;
+        m_scoreboardArray[m_playerNum-1][0] += routeScoreArray[trainCount-1];
+        m_scoreboardArray[m_playerNum-1][1] -= trainCount;
 
         goToNextPlayer();
     }

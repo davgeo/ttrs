@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         // Add array to intent as bundle
         Bundle scoreboardBundle = new Bundle();
         scoreboardBundle.putSerializable("scoreboardArray", scoreboardArray);
-        scoreboardBundle.putSerializable("playerNameArray", playerNameArray);
+        scoreboardBundle.putStringArray("playerNameArray", playerNameArray);
         intent.putExtras(scoreboardBundle);
 
         // Start next activity
