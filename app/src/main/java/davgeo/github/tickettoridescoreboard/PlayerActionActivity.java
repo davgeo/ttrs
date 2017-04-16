@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -59,11 +61,50 @@ public class PlayerActionActivity extends AppCompatActivity {
         return true;
     }
 
+    /** Inflate summary and add new table rows for each player **/
+    protected void doSummaryDialog() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+
+        // Load dialog from custom layout xml
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        View inflatedView = inflater.inflate(R.layout.summary, null);
+        TableLayout dialogTableLayout = (TableLayout) inflatedView.findViewById(R.id.summaryDialogTable);
+
+        for(int i=0; i < m_noPlayers; i++) {
+            TableRow dialogTableRow = new TableRow(this);
+
+            TextView nameTxtView = new TextView(this);
+            nameTxtView.setText(m_playerNameArray[i]);
+            nameTxtView.setLayoutParams(new TableRow.LayoutParams(1));
+            dialogTableRow.addView(nameTxtView);
+
+            for(int j=0; j < m_scoreboardArray[i].length; j++) {
+                TextView sbTxtView = new TextView(this);
+                sbTxtView.setText(String.format(Locale.getDefault(), "%d", m_scoreboardArray[i][j]));
+                dialogTableRow.addView(sbTxtView);
+            }
+
+            dialogTableLayout.addView(dialogTableRow);
+        }
+
+        alertBuilder.setView(inflatedView);
+        alertBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        final AlertDialog summaryDialog = alertBuilder.create();
+        summaryDialog.show();
+    }
+
     /** Catch menu selection **/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionBarSummary:
+                doSummaryDialog();
                 // User chose the "Settings" item, show the app settings UI...
                 return true;
 

@@ -18,4 +18,9 @@
     <string name="actionBarSummary">Summary</string>
     <string name="actionBarNewGame">New Game</string>
     <string name="actionBarNewGameDialog">"Exit current game?"</string>
+    <string name="summaryDialogTitle">"Summary"</string>
+    <string name="summaryDialogTableHeadingName">"Name"</string>
+    <string name="summaryDialogTableHeadingScore">"Score"</string>
+    <string name="summaryDialogTableHeadingTrains">"Trains"</string>
+    <string name="summaryDialogTableHeadingStations">"Stations"</string>
 </resources>
