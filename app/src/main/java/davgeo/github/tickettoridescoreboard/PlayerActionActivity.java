@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -82,6 +83,7 @@ public class PlayerActionActivity extends AppCompatActivity {
             for(int j=0; j < m_scoreboardArray[i].length; j++) {
                 TextView sbTxtView = new TextView(this);
                 sbTxtView.setText(String.format(Locale.getDefault(), "%d", m_scoreboardArray[i][j]));
+                sbTxtView.setGravity(Gravity.END);
                 dialogTableRow.addView(sbTxtView);
             }
 
@@ -252,8 +254,6 @@ public class PlayerActionActivity extends AppCompatActivity {
     }
 
     // TODO : Add settings button and activity
-
-    // TODO: Add summary button and dialog
 
     /** Edit player name **/
     public void editName(View view) {

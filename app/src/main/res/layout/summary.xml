@@ -44,19 +44,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/summaryDialogTableHeadingScore"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:gravity="end" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/summaryDialogTableHeadingTrains"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:gravity="end" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/summaryDialogTableHeadingStations"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:gravity="end" />
             </TableRow>
         </TableLayout>
     </LinearLayout>
