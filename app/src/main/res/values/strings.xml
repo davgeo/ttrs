@@ -15,4 +15,7 @@
     <string name="playerNameDialog">"Change player name"</string>
     <string name="playedTrainsTitle">"Select route length"</string>
     <string name="playedTrainsDialogBtn">"TRAINS : %1$d (SCORE : %2$2d)"</string>
+    <string name="actionBarSummary">Summary</string>
+    <string name="actionBarNewGame">New Game</string>
+    <string name="actionBarNewGameDialog">"Exit current game?"</string>
 </resources>

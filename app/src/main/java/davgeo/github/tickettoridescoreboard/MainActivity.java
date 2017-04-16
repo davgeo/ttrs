@@ -3,6 +3,7 @@ package davgeo.github.tickettoridescoreboard;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 
@@ -19,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
     /** Called when user clicks Start Game button */
     public void startGame(View view) {
         Intent intent = new Intent(this, PlayerActionActivity.class);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
 
         // Get data from screen
         EditText noPlayersEditTxt = (EditText) findViewById(R.id.noPlayersTxtEdit);

@@ -6,8 +6,11 @@ import android.content.res.Resources;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,10 +29,14 @@ public class PlayerActionActivity extends AppCompatActivity {
 
     // TODO : Save this state if app is killed
 
+    /** Called when activity is created **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_action);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
 
         Intent thisIntent = getIntent();
 
@@ -43,6 +50,58 @@ public class PlayerActionActivity extends AppCompatActivity {
         m_playerNameArray = (String[]) scoreboardBundle.getSerializable("playerNameArray");
 
         displayPlayerStats();
+    }
+
+    /** Add menu options to toolbar **/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.player_action_menu, menu);
+        return true;
+    }
+
+    /** Catch menu selection **/
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.actionBarSummary:
+                // User chose the "Settings" item, show the app settings UI...
+                return true;
+
+            case R.id.actionBarNewGame:
+                // User chose the "New Game" action.
+
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+                alertBuilder.setMessage(getResources().getString(R.string.actionBarNewGameDialog));
+                alertBuilder.setCancelable(true);
+
+                alertBuilder.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent intent = new Intent(PlayerActionActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                dialog.cancel();
+                            }
+                        });
+
+                alertBuilder.setNegativeButton(
+                        "Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog newGameDialog = alertBuilder.create();
+                newGameDialog.show();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     /** Call to display player stats */
@@ -152,6 +211,8 @@ public class PlayerActionActivity extends AppCompatActivity {
     }
 
     // TODO : Add settings button and activity
+
+    // TODO: Add summary button and dialog
 
     /** Edit player name **/
     public void editName(View view) {
