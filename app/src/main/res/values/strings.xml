@@ -23,4 +23,16 @@
     <string name="summaryDialogTableHeadingScore">"Score"</string>
     <string name="summaryDialogTableHeadingTrains">"Trains"</string>
     <string name="summaryDialogTableHeadingStations">"Stations"</string>
+    <string name="endGameActivityTitle">"Enter route scores"</string>
+    <string name="endGameActivityRouteScoreHint">"Enter route card value"</string>
+    <string name="endGameActivityCompleteBtn">"Completed route (+)"</string>
+    <string name="endGameActivityIncompleteBtn">"Incomplete route (-)"</string>
+    <string name="endGameActivityNextPlayerBtn">"Next player"</string>
+    <string name="endGameActivityFinished">"Show final score sheet"</string>
+    <string name="endGameTableTitle">"Score Breakdown"</string>
+    <string name="endGameTableHeadingTrainScore">"Trains"</string>
+    <string name="endGameTableHeadingStationScore">"Stations"</string>
+    <string name="endGameTableHeadingRouteScore">"Routes"</string>
+
+
 </resources>

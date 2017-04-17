@@ -58,14 +58,19 @@ public class PlayerActionActivity extends AppCompatActivity {
         displayPlayerStats();
     }
 
+    /** Call to return all state in a bundle **/
+    protected void bundleState(Bundle bundle) {
+        bundle.putInt("playerNum", m_playerNum);
+        bundle.putInt("noPlayers", m_noPlayers);
+        bundle.putInt("turnNo", m_turnNo);
+        bundle.putStringArray("playerNameArray", m_playerNameArray);
+        bundle.putSerializable("scoreboardArray", m_scoreboardArray);
+    }
+
     /** Save state when activity is destroyed **/
     @Override
     public void onSaveInstanceState(Bundle saveState) {
-        saveState.putInt("playerNum", m_playerNum);
-        saveState.putInt("noPlayers", m_noPlayers);
-        saveState.putInt("turnNo", m_turnNo);
-        saveState.putStringArray("playerNameArray", m_playerNameArray);
-        saveState.putSerializable("scoreboardArray", m_scoreboardArray);
+        bundleState(saveState);
         super.onSaveInstanceState(saveState);
     }
 
@@ -262,9 +267,11 @@ public class PlayerActionActivity extends AppCompatActivity {
 
     /** Called when the End Game button is pressed **/
     public void endGame(View view) {
-        goToNextPlayer();
-
-        // TODO : Create end game activity
+        Intent intent = new Intent(this, EndGameActivity.class);
+        Bundle bundle = new Bundle();
+        bundleState(bundle);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     // TODO : Add settings button and activity
