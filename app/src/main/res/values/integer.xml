@@ -10,4 +10,5 @@
         <item>18</item>
         <item>21</item>
     </integer-array>
+    <integer name="perStationScore">4</integer>
 </resources>

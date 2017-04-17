@@ -4,170 +4,35 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Locale;
 
-public class PlayerActionActivity extends AppCompatActivity {
-    int m_playerNum;
-    int m_noPlayers;
-    int m_turnNo;
-    String [] m_playerNameArray;
-    int [][] m_scoreboardArray;
-
+public class PlayerActionActivity extends BaseGameActivity {
     /** Called when activity is created **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player_action);
-
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-
-        if(savedInstanceState != null) {
-            m_playerNum = savedInstanceState.getInt("playerNum");
-            m_noPlayers = savedInstanceState.getInt("noPlayers");
-            m_turnNo = savedInstanceState.getInt("turnNo");
-            m_playerNameArray = savedInstanceState.getStringArray("playerNameArray");
-            m_scoreboardArray = (int[][]) savedInstanceState.getSerializable("scoreboardArray");
-        } else {
-            Intent thisIntent = getIntent();
-            m_playerNum = thisIntent.getIntExtra("nextPlayer", 1);
-            m_noPlayers = thisIntent.getIntExtra("noPlayers", 1);
-            m_turnNo = thisIntent.getIntExtra("turnNo", 0);
-            Bundle scoreboardBundle = thisIntent.getExtras();
-            m_playerNameArray = scoreboardBundle.getStringArray("playerNameArray");
-            m_scoreboardArray = (int[][]) scoreboardBundle.getSerializable("scoreboardArray");
-        }
-
-        displayPlayerStats();
+        super.onCreate(savedInstanceState);
     }
 
-    /** Call to return all state in a bundle **/
-    protected void bundleState(Bundle bundle) {
-        bundle.putInt("playerNum", m_playerNum);
-        bundle.putInt("noPlayers", m_noPlayers);
-        bundle.putInt("turnNo", m_turnNo);
-        bundle.putStringArray("playerNameArray", m_playerNameArray);
-        bundle.putSerializable("scoreboardArray", m_scoreboardArray);
-    }
-
-    /** Save state when activity is destroyed **/
+    /** Add extra activity specific behaviour to onCreate method **/
     @Override
-    public void onSaveInstanceState(Bundle saveState) {
-        bundleState(saveState);
-        super.onSaveInstanceState(saveState);
-    }
-
-    /** Add menu options to toolbar **/
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.player_action_menu, menu);
-        return true;
-    }
-
-    /** Inflate summary and add new table rows for each player **/
-    protected void doSummaryDialog() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-
-        // Load dialog from custom layout xml
-        LayoutInflater inflater = this.getLayoutInflater();
-
-        View inflatedView = inflater.inflate(R.layout.summary, null);
-        TableLayout dialogTableLayout = (TableLayout) inflatedView.findViewById(R.id.summaryDialogTable);
-
-        for(int i=0; i < m_noPlayers; i++) {
-            TableRow dialogTableRow = new TableRow(this);
-
-            TextView nameTxtView = new TextView(this);
-            nameTxtView.setText(m_playerNameArray[i]);
-            nameTxtView.setLayoutParams(new TableRow.LayoutParams(1));
-            dialogTableRow.addView(nameTxtView);
-
-            for(int j=0; j < m_scoreboardArray[i].length; j++) {
-                TextView sbTxtView = new TextView(this);
-                sbTxtView.setText(String.format(Locale.getDefault(), "%d", m_scoreboardArray[i][j]));
-                sbTxtView.setGravity(Gravity.END);
-                dialogTableRow.addView(sbTxtView);
-            }
-
-            dialogTableLayout.addView(dialogTableRow);
-        }
-
-        alertBuilder.setView(inflatedView);
-        alertBuilder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-
-        final AlertDialog summaryDialog = alertBuilder.create();
-        summaryDialog.show();
-    }
-
-    /** Catch menu selection **/
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.actionBarSummary:
-                doSummaryDialog();
-                // User chose the "Settings" item, show the app settings UI...
-                return true;
-
-            case R.id.actionBarNewGame:
-                // User chose the "New Game" action.
-
-                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-                alertBuilder.setMessage(getResources().getString(R.string.actionBarNewGameDialog));
-                alertBuilder.setCancelable(true);
-
-                alertBuilder.setPositiveButton(
-                        "Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent intent = new Intent(PlayerActionActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                dialog.cancel();
-                            }
-                        });
-
-                alertBuilder.setNegativeButton(
-                        "Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog newGameDialog = alertBuilder.create();
-                newGameDialog.show();
-                return true;
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
-        }
+    protected void doActivitySetup() {
+        m_game_complete = false;
     }
 
     /** Call to display player stats */
+    @Override
     protected void displayPlayerStats() {
         // Player score - scoreboardArray[playerNum-1][0]
         // Remaining trains - scoreboardArray[playerNum-1][1]
@@ -178,13 +43,13 @@ public class PlayerActionActivity extends AppCompatActivity {
         nameTxt.setText(m_playerNameArray[idx]);
 
         TextView scoreTxt = (TextView) findViewById(R.id.scoreValueTxt);
-        scoreTxt.setText(String.format(Locale.getDefault(), "%d", m_scoreboardArray[idx][0]));
+        scoreTxt.setText(String.format(Locale.getDefault(), "%d", m_trainScoreArray[idx]));
 
         TextView trainTxt = (TextView) findViewById(R.id.trainsValueTxt);
-        trainTxt.setText(String.format(Locale.getDefault(), "%d", m_scoreboardArray[idx][1]));
+        trainTxt.setText(String.format(Locale.getDefault(), "%d", m_trainCountArray[idx]));
 
         TextView stationTxt = (TextView) findViewById(R.id.stationsValueTxt);
-        stationTxt.setText(String.format(Locale.getDefault(), "%d", m_scoreboardArray[idx][2]));
+        stationTxt.setText(String.format(Locale.getDefault(), "%d", m_stationCountArray[idx]));
 
         String actionString = getResources().getString(R.string.selectActionTxt, m_playerNum);
 
@@ -195,17 +60,6 @@ public class PlayerActionActivity extends AppCompatActivity {
         if(m_playerNum == m_noPlayers) {
             m_turnNo++;
         }
-    }
-
-    /** Load next player **/
-    protected void goToNextPlayer() {
-        m_playerNum++;
-
-        if(m_playerNum > m_noPlayers) {
-            m_playerNum = 1;
-        }
-
-        displayPlayerStats();
     }
 
     /** Call to configure buttons in played trains dialog **/
@@ -228,12 +82,12 @@ public class PlayerActionActivity extends AppCompatActivity {
         });
     }
 
-    /** Called when user clicks a pickup route/train cards button */
+    /** Called when either the Pickup Route/Train Cards buttons are pressed */
     public void pickupCards(View view) {
         goToNextPlayer();
     }
 
-    /** Called when user clicks played trains button **/
+    /** Called when the Played Trains button is pressed **/
     public void playedTrains(View view) {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
 
@@ -260,9 +114,9 @@ public class PlayerActionActivity extends AppCompatActivity {
         setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn8), playedTrainsDialog);
     }
 
-    /** Called when user clicks played stations button **/
+    /** Called when the Played Stations button is pressed **/
     public void playedStations(View view) {
-        m_scoreboardArray[m_playerNum-1][2] -= 1;
+        m_stationCountArray[m_playerNum-1] -= 1;
         goToNextPlayer();
     }
 
@@ -270,14 +124,12 @@ public class PlayerActionActivity extends AppCompatActivity {
     public void endGame(View view) {
         Intent intent = new Intent(this, EndGameActivity.class);
         Bundle bundle = new Bundle();
-        bundleState(bundle);
+        saveBundleState(bundle);
         intent.putExtras(bundle);
         startActivity(intent);
     }
 
-    // TODO : Add settings button and activity
-
-    /** Edit player name **/
+    /** Called when the Edit Player Name button is pressed **/
     public void editName(View view) {
         final EditText alertEditTxt = new EditText(this);
         alertEditTxt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(15)});
@@ -329,9 +181,11 @@ public class PlayerActionActivity extends AppCompatActivity {
         int trainCount = Integer.parseInt(view.getTag().toString());
         int[] routeScoreArray = getResources().getIntArray(R.array.trainScores);
 
-        m_scoreboardArray[m_playerNum-1][0] += routeScoreArray[trainCount-1];
-        m_scoreboardArray[m_playerNum-1][1] -= trainCount;
+        m_trainScoreArray[m_playerNum-1] += routeScoreArray[trainCount-1];
+        m_trainCountArray[m_playerNum-1] -= trainCount;
 
         goToNextPlayer();
     }
+
+    // TODO : Add settings button and activity
 }

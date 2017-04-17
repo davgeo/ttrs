@@ -12,21 +12,18 @@ import android.widget.Toast;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-
     /** Called when activity is created **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
     }
 
     /** Called when user clicks Start Game button */
     public void startGame(View view) {
-        Intent intent = new Intent(this, PlayerActionActivity.class);
-
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-
         // Get data from screen
         EditText noPlayersEditTxt = (EditText) findViewById(R.id.noPlayersTxtEdit);
         EditText noTrainsEditTxt = (EditText) findViewById(R.id.startingTrainsTxtEdit);
@@ -55,46 +52,56 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-
-        int noPlayersInt = Integer.parseInt(noPlayersString);
-        int noStartingStationsInt = Integer.parseInt(noStationsString);
-        int noStartingTrainsInt = Integer.parseInt(noTrainsString);
+        int noPlayers = Integer.parseInt(noPlayersString);
+        int noStartingTrains = Integer.parseInt(noTrainsString);
+        int noStartingStations = Integer.parseInt(noStationsString);
 
         // Sanity check integer values
-        if(noPlayersInt < 1) {
+        if(noPlayers < 1) {
             Toast.makeText(this, "Number of players must be greater than zero", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(noStartingTrainsInt < 1) {
+        if(noStartingTrains < 1) {
             Toast.makeText(this, "Number of trains must be greater than zero", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(noStartingStationsInt < 0) {
+        if(noStartingStations < 0) {
             Toast.makeText(this, "Number of stations cannot be negative", Toast.LENGTH_SHORT).show();
         }
 
-        intent.putExtra("noPlayers", noPlayersInt);
-        intent.putExtra("nextPlayer", 1);
-
         // Create player-specific settings
-        int [][] scoreboardArray = new int [noPlayersInt][3];
-        String [] playerNameArray = new String[noPlayersInt];
+        int [] trainScoreArray = new int [noPlayers];
+        int [] trainCountArray = new int [noPlayers];
+        int [] stationCountArray = new int [noPlayers];
+        int [] cardScoreArray = new int [noPlayers];
+        String [] playerNameArray = new String[noPlayers];
 
         // Configure array
-        for(int i=0; i < noPlayersInt; i++) {
-            scoreboardArray[i][0] = 0; // Player Score
-            scoreboardArray[i][1] = noStartingTrainsInt; // Remaining Trains
-            scoreboardArray[i][2] = noStartingStationsInt; // Remaining Stations
-            playerNameArray[i]    = String.format(Locale.getDefault(), "PLAYER %d", i+1);
+        for(int i=0; i < noPlayers; i++) {
+            trainScoreArray[i]   = 0;
+            trainCountArray[i]   = noStartingTrains;
+            stationCountArray[i] = noStartingStations;
+            cardScoreArray[i]    = 0;
+            playerNameArray[i]   = String.format(Locale.getDefault(), "PLAYER %d", i+1);
         }
 
-        // Add array to intent as bundle
-        Bundle scoreboardBundle = new Bundle();
-        scoreboardBundle.putSerializable("scoreboardArray", scoreboardArray);
-        scoreboardBundle.putStringArray("playerNameArray", playerNameArray);
-        intent.putExtras(scoreboardBundle);
+        // Add configuration to bundle
+        Bundle bundle = new Bundle();
+
+        bundle.putInt("playerNum", 1);
+        bundle.putInt("noPlayers", noPlayers);
+        bundle.putInt("turnNo", 1);
+        bundle.putIntArray("trainScoreArray", trainScoreArray);
+        bundle.putIntArray("trainCountArray", trainCountArray);
+        bundle.putIntArray("stationCountArray", stationCountArray);
+        bundle.putIntArray("cardScoreArray", cardScoreArray);
+        bundle.putStringArray("playerNameArray", playerNameArray);
+
+        // Add bundle to intent
+        Intent intent = new Intent(this, PlayerActionActivity.class);
+        intent.putExtras(bundle);
 
         // Start next activity
         startActivity(intent);
