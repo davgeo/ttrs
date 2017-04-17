@@ -93,7 +93,7 @@
                 android:id="@+id/endGameScoreTable"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:stretchColumns="1,2,3"
+                android:stretchColumns="1,2,3, 4"
                 android:layout_marginBottom="20dp">
 
                 <TableRow
@@ -104,7 +104,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_column="1"
-                        android:layout_span="3"
+                        android:layout_span="4"
                         android:text="@string/endGameTableTitle"
                         android:textStyle="bold"
                         android:gravity="center" />
@@ -135,6 +135,13 @@
                         android:text="@string/endGameTableHeadingRouteScore"
                         android:textStyle="bold"
                         android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/endGameTableHeadingTotalScore"
+                        android:textStyle="bold"
+                        android:gravity="end" />
                 </TableRow>
 
                 <TableRow
@@ -156,6 +163,12 @@
 
                     <TextView
                         android:id="@+id/endGameTableRouteScoreValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:id="@+id/endGameTableTotalScoreValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="end" />

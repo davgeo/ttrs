@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -298,10 +299,16 @@ public class PlayerActionActivity extends AppCompatActivity {
                 "Accept",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        m_playerNameArray[m_playerNum-1] = alertEditTxt.getText().toString();
-                        TextView nameTxt = (TextView) findViewById(R.id.playerName);
-                        nameTxt.setText(m_playerNameArray[m_playerNum-1]);
-                        dialog.cancel();
+                        String newName = alertEditTxt.getText().toString();
+
+                        if(newName.equals("")) {
+                            Toast.makeText(PlayerActionActivity.this, "New player name cannot be blank", Toast.LENGTH_SHORT).show();
+                        } else {
+                            m_playerNameArray[m_playerNum - 1] = newName;
+                            TextView nameTxt = (TextView) findViewById(R.id.playerName);
+                            nameTxt.setText(m_playerNameArray[m_playerNum - 1]);
+                            dialog.cancel();
+                        }
                     }
                 });
 

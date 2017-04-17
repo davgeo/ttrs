@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+    /** Called when activity is created **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,17 +29,54 @@ public class MainActivity extends AppCompatActivity {
 
         // Get data from screen
         EditText noPlayersEditTxt = (EditText) findViewById(R.id.noPlayersTxtEdit);
-        EditText noStationsEditTxt = (EditText) findViewById(R.id.startingStationsTxtEdit);
         EditText noTrainsEditTxt = (EditText) findViewById(R.id.startingTrainsTxtEdit);
+        EditText noStationsEditTxt = (EditText) findViewById(R.id.startingStationsTxtEdit);
 
-        // Set global configuration
-        int noPlayersInt = Integer.parseInt(noPlayersEditTxt.getText().toString());
-        int noStartingStationsInt = Integer.parseInt(noStationsEditTxt.getText().toString());
-        int noStartingTrainsInt = Integer.parseInt(noTrainsEditTxt.getText().toString());
+        String noPlayersString = noPlayersEditTxt.getText().toString();
+        String noTrainsString = noTrainsEditTxt.getText().toString();
+        String noStationsString = noStationsEditTxt.getText().toString();
+
+        // Check string entry is not empty
+        if(TextUtils.isEmpty(noPlayersString))
+        {
+            Toast.makeText(this, "Enter number of players", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(noTrainsString))
+        {
+            Toast.makeText(this, "Enter number of trains", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(noStationsString))
+        {
+            Toast.makeText(this, "Enter number of stations", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+        int noPlayersInt = Integer.parseInt(noPlayersString);
+        int noStartingStationsInt = Integer.parseInt(noStationsString);
+        int noStartingTrainsInt = Integer.parseInt(noTrainsString);
+
+        // Sanity check integer values
+        if(noPlayersInt < 1) {
+            Toast.makeText(this, "Number of players must be greater than zero", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(noStartingTrainsInt < 1) {
+            Toast.makeText(this, "Number of trains must be greater than zero", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(noStartingStationsInt < 0) {
+            Toast.makeText(this, "Number of stations cannot be negative", Toast.LENGTH_SHORT).show();
+        }
+
         intent.putExtra("noPlayers", noPlayersInt);
         intent.putExtra("nextPlayer", 1);
-
-        // TODO : Sanity check entries (legal values)
 
         // Create player-specific settings
         int [][] scoreboardArray = new int [noPlayersInt][3];

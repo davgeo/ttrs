@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -210,6 +212,10 @@ public class EndGameActivity extends AppCompatActivity {
 
         TextView routeScoreTxtView = (TextView) findViewById(R.id.endGameTableRouteScoreValue);
         routeScoreTxtView.setText(String.format(Locale.getDefault(), "%d", m_routeScoreArray[idx]));
+
+        TextView totalScoreTxtView = (TextView) findViewById(R.id.endGameTableTotalScoreValue);
+        totalScoreTxtView.setText(String.format(Locale.getDefault(), "%d",
+                m_scoreboardArray[idx][0] + m_scoreboardArray[idx][2]*3 + m_routeScoreArray[idx]));
     }
 
     /** Load next player **/
@@ -226,21 +232,32 @@ public class EndGameActivity extends AppCompatActivity {
     /** Call when either complete or incomplete route button is clicked **/
     public void doRouteScore(View view) {
         final EditText routeScoreEditText = (EditText) findViewById(R.id.endGameRouteScoreEditTxt);
-        int routeScore = Integer.parseInt(routeScoreEditText.getText().toString());
-        int buttonTag = Integer.parseInt(view.getTag().toString());
+        String routeScoreString = routeScoreEditText.getText().toString();
 
-        // TODO : Check legal values on input (crashes if empty)
+        if(TextUtils.isEmpty(routeScoreString))
+        {
+            Toast.makeText(this, "Enter a route card value", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int routeScore = Integer.parseInt(routeScoreString);
+        int buttonTag = Integer.parseInt(view.getTag().toString());
+        int idx = m_playerNum - 1;
 
         if(buttonTag == 1) {
-            m_routeScoreArray[m_playerNum-1] += routeScore;
+            m_routeScoreArray[idx] += routeScore;
         } else {
-            m_routeScoreArray[m_playerNum-1] -= routeScore;
+            m_routeScoreArray[idx] -= routeScore;
         }
 
         routeScoreEditText.setText("");
 
         TextView routeScoreTxtView = (TextView) findViewById(R.id.endGameTableRouteScoreValue);
-        routeScoreTxtView.setText(String.format(Locale.getDefault(), "%d", m_routeScoreArray[m_playerNum-1]));
+        routeScoreTxtView.setText(String.format(Locale.getDefault(), "%d", m_routeScoreArray[idx]));
+
+        TextView totalScoreTxtView = (TextView) findViewById(R.id.endGameTableTotalScoreValue);
+        totalScoreTxtView.setText(String.format(Locale.getDefault(), "%d",
+                m_scoreboardArray[idx][0] + m_scoreboardArray[idx][2]*3 + m_routeScoreArray[idx]));
     }
 
     /** Called when next player button clicked **/

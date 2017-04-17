@@ -33,6 +33,5 @@
     <string name="endGameTableHeadingTrainScore">"Trains"</string>
     <string name="endGameTableHeadingStationScore">"Stations"</string>
     <string name="endGameTableHeadingRouteScore">"Routes"</string>
-
-
+    <string name="endGameTableHeadingTotalScore">"Total"</string>
 </resources>
