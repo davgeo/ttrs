@@ -34,9 +34,6 @@ public class PlayerActionActivity extends BaseGameActivity {
     /** Call to display player stats */
     @Override
     protected void displayPlayerStats() {
-        // Player score - scoreboardArray[playerNum-1][0]
-        // Remaining trains - scoreboardArray[playerNum-1][1]
-        // Remaining stations - scoreboardArray[playerNum-1][2]
         int idx = m_playerNum - 1;
 
         TextView nameTxt = (TextView) findViewById(R.id.playerName);

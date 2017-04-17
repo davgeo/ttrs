@@ -1,6 +1,9 @@
 package davgeo.github.tickettoridescoreboard;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -47,9 +50,6 @@ public class EndGameActivity extends BaseGameActivity {
     /** Call to display player stats **/
     @Override
     protected void displayPlayerStats() {
-        // Player score - scoreboardArray[playerNum-1][0]
-        // Remaining trains - scoreboardArray[playerNum-1][1]
-        // Remaining stations - scoreboardArray[playerNum-1][2]
         int idx = m_playerNum - 1;
 
         Spinner spinner = (Spinner) findViewById(R.id.endGameSpinner);
@@ -101,5 +101,36 @@ public class EndGameActivity extends BaseGameActivity {
     /** Called when next player button clicked **/
     public void doNextPlayer(View view) {
         goToNextPlayer();
+    }
+
+    /** Called when the Show Final Score Sheet button is clicked **/
+    public void showFinalScores(View view) {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setMessage(getResources().getString(R.string.endGameActivityFinishedDialog));
+        alertBuilder.setCancelable(true);
+
+        alertBuilder.setPositiveButton(
+                "Show Final Scores",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(EndGameActivity.this, ScoreSheetActivity.class);
+                        Bundle bundle = new Bundle();
+                        saveBundleState(bundle);
+                        intent.putExtras(bundle);
+                        dialog.cancel();
+                        startActivity(intent);
+                    }
+                });
+
+        alertBuilder.setNegativeButton(
+                "Back",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog newGameDialog = alertBuilder.create();
+        newGameDialog.show();
     }
 }
