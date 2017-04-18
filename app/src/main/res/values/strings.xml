@@ -37,5 +37,9 @@
     <string name="endGameActivityFinishedDialog">"Remember to add any special cards (e.g. longest route) as completed routes"</string>
     <string name="scoreSheetTitle">"Final score sheet"</string>
     <string name="scoreSheetTableHeadingNames">Name</string>
-    <string name="scoreSheetTableHeadingTotalScore">Score</string>
+    <string name="scoreSheetTableHeadingScore">Score</string>
+    <string name="scoreSheetTableHeadingTrains">Trains</string>
+    <string name="scoreSheetTableHeadingStations">Stations</string>
+    <string name="scoreSheetTableHeadingCards">Cards</string>
+    <string name="scoreSheetTableHeadingTotal">Total</string>
 </resources>

@@ -57,6 +57,9 @@ public class ScoreSheetActivity extends BaseGameActivity {
             nameTxtView.setLayoutParams(new TableRow.LayoutParams(1));
             dialogTableRow.addView(nameTxtView);
 
+            addValueToTable(m_trainScoreArray[i[0]], dialogTableRow);
+            addValueToTable(getStationScore(i[0]+1), dialogTableRow);
+            addValueToTable(m_cardScoreArray[i[0]], dialogTableRow);
             addValueToTable(i[1], dialogTableRow);
 
             tableLayout.addView(dialogTableRow);
