@@ -17,8 +17,7 @@
         </activity>
         <activity android:name=".PlayerActionActivity" />
         <activity android:name=".EndGameActivity" />
-        <activity android:name=".BaseGameActivity" />
-        <activity android:name=".ScoreSheetActivity"></activity>
+        <activity android:name=".ScoreSheetActivity"/>
     </application>
 
 </manifest>
