@@ -10,7 +10,6 @@
     <include layout="@layout/toolbar"/>
 
     <RelativeLayout
-        android:id="@+id/activity_player_action"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="@dimen/activity_vertical_margin"
@@ -24,7 +23,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/endGameActivityTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -46,7 +44,6 @@
                     android:layout_weight="1" />
 
                 <Button
-                    android:id="@+id/endGameActivityNextPlayerBtn"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -69,7 +66,6 @@
                 android:layout_marginBottom="20dp" >
 
                 <Button
-                    android:id="@+id/endGameActivityCompleteBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -79,7 +75,6 @@
                     android:tag="1"/>
 
                 <Button
-                    android:id="@+id/endGameActivityIncompleteBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -176,7 +171,6 @@
             </TableLayout>
 
             <Button
-                android:id="@+id/endGameActivityFinished"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/endGameActivityFinished"

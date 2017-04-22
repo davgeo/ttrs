@@ -29,70 +29,74 @@
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
-
-        <TableLayout
-            android:id="@+id/scoreSheetTable"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="1,2,3,4,5">
+            android:layout_height="wrap_content">
 
-            <TableRow
+            <TableLayout
+                android:id="@+id/scoreSheetTable"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:stretchColumns="1,2,3,4,5">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_column="2"
-                    android:layout_span="4"
-                    android:text="@string/scoreSheetTableHeadingScore"
-                    android:textAlignment="center"
-                    android:textAllCaps="true"
-                    android:textStyle="bold" />
-            </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2"
+                        android:layout_span="4"
+                        android:text="@string/scoreSheetTableHeadingScore"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:textStyle="bold" />
+                </TableRow>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_column="1"
-                    android:text="@string/scoreSheetTableHeadingNames"
-                    android:textAllCaps="true"
-                    android:textStyle="bold" />
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/scoreSheetTableHeadingTrains"
-                    android:textStyle="bold"
-                    android:gravity="end" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:text="@string/scoreSheetTableHeadingNames"
+                        android:textAllCaps="true"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/scoreSheetTableHeadingStations"
-                    android:textStyle="bold"
-                    android:gravity="end" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/scoreSheetTableHeadingTrains"
+                        android:textStyle="bold"
+                        android:gravity="end" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/scoreSheetTableHeadingCards"
-                    android:textStyle="bold"
-                    android:gravity="end" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/scoreSheetTableHeadingStations"
+                        android:textStyle="bold"
+                        android:gravity="end" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="@string/scoreSheetTableHeadingTotal"
-                    android:textAllCaps="true"
-                    android:textStyle="bold" />
-            </TableRow>
-        </TableLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/scoreSheetTableHeadingCards"
+                        android:textStyle="bold"
+                        android:gravity="end" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:text="@string/scoreSheetTableHeadingTotal"
+                        android:textAllCaps="true"
+                        android:textStyle="bold" />
+                </TableRow>
+            </TableLayout>
+        </ScrollView>
     </LinearLayout>
 
 </LinearLayout>
