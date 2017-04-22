@@ -185,5 +185,4 @@ public class PlayerActionActivity extends BaseGameActivity {
     }
 
     // TODO : Add settings button and activity
-    // TODO : Add different layouts for landscape
 }
