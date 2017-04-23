@@ -9,10 +9,10 @@ Please give as much detail as possible.
 ## Screenshots
 
 ### Scoring player turns
-![alt text](https://raw.githubusercontent.com/davgeo/ttrs/master/screenshots/player_action.jpg "Player action")
+![](screenshots/player_action.png?raw=true "Player action")
 
 ### Adding route scores
-![alt text](https://raw.githubusercontent.com/davgeo/ttrs/master/screenshots/end_game.jpg "End game")
+![](screenshots/end_game.png?raw=true "End game")
 
 ### Final score sheet
-![alt text](https://raw.githubusercontent.com/davgeo/ttrs/master/screenshots/score_sheet.jpg "Score sheet")
+![](screenshots/score_sheet.png?raw=true "Score sheet")
