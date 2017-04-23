@@ -29,6 +29,7 @@ public class PlayerActionActivity extends BaseGameActivity {
     @Override
     protected void doActivitySetup() {
         m_game_complete = false;
+        doSettingUpdate();
     }
 
     /** Call to display player stats */
@@ -52,10 +53,20 @@ public class PlayerActionActivity extends BaseGameActivity {
 
         TextView actionTxt = (TextView) findViewById(R.id.selectActionTxt);
         actionTxt.setText(actionString);
+    }
 
-        // Increment turn number if on last player
-        if(m_playerNum == m_noPlayers) {
-            m_turnNo++;
+    /** Call to implement setting change updates **/
+    @Override
+    protected void doSettingUpdate() {
+        Button pickedTrainCardBtn = (Button) findViewById(R.id.pickupTrainsBtn);
+        Button pickedRouteCardBtn = (Button) findViewById(R.id.pickupRoutesBtn);
+
+        if(m_preferences.getBoolean("Settings.CardPickup", true)) {
+            pickedTrainCardBtn.setText(R.string.pickupTrainsBtn);
+            pickedRouteCardBtn.setVisibility(View.VISIBLE);
+        } else {
+            pickedTrainCardBtn.setText(R.string.pickupBtnAlternate);
+            pickedRouteCardBtn.setVisibility(View.GONE);
         }
     }
 
@@ -114,7 +125,12 @@ public class PlayerActionActivity extends BaseGameActivity {
     /** Called when the Played Stations button is pressed **/
     public void playedStations(View view) {
         m_stationCountArray[m_playerNum-1] -= 1;
-        goToNextPlayer();
+
+        if(m_preferences.getBoolean("Settings.AutoNextPlayer", true)) {
+            goToNextPlayer();
+        } else {
+            displayPlayerStats();
+        }
     }
 
     /** Called when the End Game button is pressed **/
@@ -181,11 +197,14 @@ public class PlayerActionActivity extends BaseGameActivity {
         m_trainScoreArray[m_playerNum-1] += routeScoreArray[trainCount-1];
         m_trainCountArray[m_playerNum-1] -= trainCount;
 
-        goToNextPlayer();
+        if(m_preferences.getBoolean("Settings.AutoNextPlayer", true)) {
+            goToNextPlayer();
+        } else {
+            displayPlayerStats();
+        }
     }
 
-    // TODO : Add settings button and activity
     // TODO : Add undo button
-    // TODO : Add option to add all scores at end game (e.g. lock player when adding trains)
     // TODO : Add end of game check when trains run low
+    // TODO : Review end of game activity (played trains/station buttons)
 }

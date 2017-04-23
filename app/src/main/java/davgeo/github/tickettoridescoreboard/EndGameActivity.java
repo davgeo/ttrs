@@ -58,6 +58,12 @@ public class EndGameActivity extends BaseGameActivity {
         updateScoreTable();
     }
 
+    /** Call to implement setting change updates **/
+    @Override
+    protected void doSettingUpdate() {
+        updateScoreTable();
+    }
+
     /** Update score table **/
     public void updateScoreTable() {
         TextView trainScoreTxtView = (TextView) findViewById(R.id.endGameTableTrainScoreValue);

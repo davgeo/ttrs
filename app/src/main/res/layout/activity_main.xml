@@ -29,8 +29,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:ems="10"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:hint="@string/startingPlayersTxt"
+                android:maxLength="2"
                 android:textAlignment="center" />
 
             <EditText
@@ -39,7 +40,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:ems="10"
-                android:inputType="numberDecimal"
+                android:inputType="number"
+                android:maxLength="3"
                 android:hint="@string/startingTrainsTxt"
                 android:textAlignment="center" />
 
@@ -50,7 +52,8 @@
                 android:layout_marginTop="10dp"
                 android:ems="10"
                 android:hint="@string/startingStationsTxt"
-                android:inputType="numberDecimal"
+                android:inputType="number"
+                android:maxLength="2"
                 android:textAlignment="center" />
 
             <Button

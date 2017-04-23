@@ -1,6 +1,5 @@
 package davgeo.github.tickettoridescoreboard;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -28,6 +27,10 @@ public class ScoreSheetActivity extends BaseGameActivity {
     protected void displayPlayerStats() {
         doScoreSheetTable();
     }
+
+    /** Call to implement setting change updates **/
+    @Override
+    protected void doSettingUpdate() {}
 
     /** Update score sheet table **/
     protected void doScoreSheetTable() {

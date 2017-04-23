@@ -7,6 +7,7 @@
     <string name="playStnBtn">"PLAYED - STATION"</string>
     <string name="pickupRoutesBtn">"PICKUP - ROUTE CARDS"</string>
     <string name="pickupTrainsBtn">"PICKUP - TRAIN CARDS"</string>
+    <string name="pickupBtnAlternate">"Next player"</string>
     <string name="endGameBtn">"END GAME"</string>
     <string name="selectActionTxt">"SELECT PLAYER %1$d ACTION"</string>
     <string name="scoreTxt">"SCORE : "</string>
@@ -15,6 +16,7 @@
     <string name="playerNameDialog">"Change player name"</string>
     <string name="playedTrainsTitle">"Select route length"</string>
     <string name="playedTrainsDialogBtn">"TRAINS : %1$d (SCORE : %2$2d)"</string>
+    <string name="actionBarSettings">Settings</string>
     <string name="actionBarSummary">Summary</string>
     <string name="actionBarNewGame">New Game</string>
     <string name="actionBarNewGameDialog">"Exit current game?"</string>
@@ -42,4 +44,10 @@
     <string name="scoreSheetTableHeadingStations">Stations</string>
     <string name="scoreSheetTableHeadingCards">Cards</string>
     <string name="scoreSheetTableHeadingTotal">Total</string>
+    <string name="settingsToggleEnabled">Enabled</string>
+    <string name="settingsToggleDisabled">Disabled</string>
+    <string name="settingsCardPickupToggleBtnTitle">Card pickup buttons:</string>
+    <string name="settingsAutoNextPlayerToggleBtnTitle">Automatically go to next player:</string>
+    <string name="settingsStationScoreTitle">"Set score per unused station:"</string>
+    <string name="settingsStationScoreHint">"default"</string>
 </resources>
