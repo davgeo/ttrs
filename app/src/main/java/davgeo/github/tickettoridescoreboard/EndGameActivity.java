@@ -2,12 +2,15 @@ package davgeo.github.tickettoridescoreboard;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -50,19 +53,21 @@ public class EndGameActivity extends BaseGameActivity {
     /** Call to display player stats **/
     @Override
     protected void displayPlayerStats() {
-        int idx = m_playerNum - 1;
-
         Spinner spinner = (Spinner) findViewById(R.id.endGameSpinner);
-        spinner.setSelection(idx);
+        spinner.setSelection(m_playerNum - 1);
+        updateScoreTable();
+    }
 
+    /** Update score table **/
+    public void updateScoreTable() {
         TextView trainScoreTxtView = (TextView) findViewById(R.id.endGameTableTrainScoreValue);
-        trainScoreTxtView.setText(String.format(Locale.getDefault(), "%d", m_trainScoreArray[idx]));
+        trainScoreTxtView.setText(String.format(Locale.getDefault(), "%d", m_trainScoreArray[m_playerNum - 1]));
 
         TextView stationScoreTxtView = (TextView) findViewById(R.id.endGameTableStationScoreValue);
         stationScoreTxtView.setText(String.format(Locale.getDefault(), "%d", getStationScore(m_playerNum)));
 
         TextView routeScoreTxtView = (TextView) findViewById(R.id.endGameTableRouteScoreValue);
-        routeScoreTxtView.setText(String.format(Locale.getDefault(), "%d", m_cardScoreArray[idx]));
+        routeScoreTxtView.setText(String.format(Locale.getDefault(), "%d", m_cardScoreArray[m_playerNum - 1]));
 
         TextView totalScoreTxtView = (TextView) findViewById(R.id.endGameTableTotalScoreValue);
         totalScoreTxtView.setText(String.format(Locale.getDefault(), "%d", getTotalScore(m_playerNum)));
@@ -91,11 +96,7 @@ public class EndGameActivity extends BaseGameActivity {
 
         routeScoreEditText.setText("");
 
-        TextView routeScoreTxtView = (TextView) findViewById(R.id.endGameTableRouteScoreValue);
-        routeScoreTxtView.setText(String.format(Locale.getDefault(), "%d", m_cardScoreArray[idx]));
-
-        TextView totalScoreTxtView = (TextView) findViewById(R.id.endGameTableTotalScoreValue);
-        totalScoreTxtView.setText(String.format(Locale.getDefault(), "%d", getTotalScore(m_playerNum)));
+        updateScoreTable();
     }
 
     /** Called when next player button clicked **/
@@ -133,4 +134,69 @@ public class EndGameActivity extends BaseGameActivity {
         AlertDialog newGameDialog = alertBuilder.create();
         newGameDialog.show();
     }
+
+    /** Called when the Played Trains button is pressed **/
+    public void playedTrains(View view) {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+
+        // Load dialog from custom layout xml
+        LayoutInflater inflater = this.getLayoutInflater();
+        alertBuilder.setView(inflater.inflate(R.layout.played_trains_dialog, null))
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        final AlertDialog playedTrainsDialog = alertBuilder.create();
+        playedTrainsDialog.show();
+
+        // Configure each button
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn1), playedTrainsDialog);
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn2), playedTrainsDialog);
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn3), playedTrainsDialog);
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn4), playedTrainsDialog);
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn5), playedTrainsDialog);
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn6), playedTrainsDialog);
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn7), playedTrainsDialog);
+        setPlayedTrainButtonTxt((Button) playedTrainsDialog.findViewById(R.id.playedTrainsBtn8), playedTrainsDialog);
+    }
+
+    /** Called when the Played Stations button is pressed **/
+    public void playedStations(View view) {
+        m_stationCountArray[m_playerNum-1] -= 1;
+        updateScoreTable();
+    }
+
+    /** Call to configure buttons in played trains dialog **/
+    protected void setPlayedTrainButtonTxt(Button button, final AlertDialog dialog) {
+        Resources res = getResources();
+        int[] routeScoreArray = res.getIntArray(R.array.trainScores);
+        int buttonTag = Integer.parseInt(button.getTag().toString());
+
+        // Update button text
+        button.setText(res.getString(R.string.playedTrainsDialogBtn,
+                buttonTag, routeScoreArray[buttonTag-1]));
+
+        // Update onClick method to call scoreTrains function and then dismiss dialog
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scoreTrains(view);
+                dialog.dismiss();
+            }
+        });
+    }
+
+    /** Called when a button is clicked from played trains dialog **/
+    public void scoreTrains(View view) {
+        int trainCount = Integer.parseInt(view.getTag().toString());
+        int[] routeScoreArray = getResources().getIntArray(R.array.trainScores);
+
+        m_trainScoreArray[m_playerNum-1] += routeScoreArray[trainCount-1];
+        m_trainCountArray[m_playerNum-1] -= trainCount;
+
+        updateScoreTable();
+    }
+
 }

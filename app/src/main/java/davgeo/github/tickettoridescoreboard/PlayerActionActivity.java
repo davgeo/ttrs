@@ -185,4 +185,7 @@ public class PlayerActionActivity extends BaseGameActivity {
     }
 
     // TODO : Add settings button and activity
+    // TODO : Add undo button
+    // TODO : Add option to add all scores at end game (e.g. lock player when adding trains)
+    // TODO : Add end of game check when trains run low
 }

@@ -49,8 +49,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="20dp" >
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/endGameActivityCompleteBtn"
@@ -104,7 +103,7 @@
                     android:id="@+id/endGameScoreTable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:stretchColumns="1,2,3, 4"
+                    android:stretchColumns="1,2,3,4"
                     android:layout_marginBottom="20dp">
 
                     <TableRow
@@ -187,6 +186,20 @@
                 </TableLayout>
             </LinearLayout>
         </LinearLayout>
+
+        <Button
+            android:id="@+id/playStnBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="playedStations"
+            android:text="@string/playStnBtn" />
+
+        <Button
+            android:id="@+id/playTrainBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="playedTrains"
+            android:text="@string/playTrainBtn" />
 
         <Button
             android:layout_width="match_parent"
