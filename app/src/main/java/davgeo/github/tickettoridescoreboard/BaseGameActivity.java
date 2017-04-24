@@ -187,14 +187,17 @@ public abstract class BaseGameActivity extends AppCompatActivity {
         boolean cardPickupToggleEnabledPref = m_preferences.getBoolean("Settings.CardPickup", true);
         boolean autoNextPlayerToggleEnabledPref = m_preferences.getBoolean("Settings.AutoNextPlayer", true);
         int stationValuePref = m_preferences.getInt("Settings.StationValue", getResources().getInteger(R.integer.perStationScore));
+        int trainThresholdPref = m_preferences.getInt("Settings.EndGameTrainThreshold", getResources().getInteger(R.integer.endGameTrainThreshold));
 
         final ToggleButton cardPickupToggle = (ToggleButton) inflatedView.findViewById(R.id.settingsCardPickupToggle);
         final ToggleButton autoNextPlayerToggle = (ToggleButton) inflatedView.findViewById(R.id.settingsChangePlayerToggle);
         final EditText stationValueTxt = (EditText) inflatedView.findViewById(R.id.settingsStationScoreEditTxt);
+        final EditText trainThresholdTxt = (EditText) inflatedView.findViewById(R.id.settingsTrainThresholdEditTxt);
 
         cardPickupToggle.setChecked(cardPickupToggleEnabledPref);
         autoNextPlayerToggle.setChecked(autoNextPlayerToggleEnabledPref);
         stationValueTxt.setText(String.format(Locale.getDefault(), "%d", stationValuePref));
+        trainThresholdTxt.setText(String.format(Locale.getDefault(), "%d", trainThresholdPref));
 
         alertBuilder.setView(inflatedView);
 
@@ -214,10 +217,20 @@ public abstract class BaseGameActivity extends AppCompatActivity {
                             stationValue = Integer.parseInt(stationValueString);
                         }
 
+                        int trainThresholdValue;
+                        String trainThresholdString = trainThresholdTxt.getText().toString();
+
+                        if(TextUtils.isEmpty(trainThresholdString)) {
+                            trainThresholdValue = getResources().getInteger(R.integer.endGameTrainThreshold);
+                        } else {
+                            trainThresholdValue = Integer.parseInt(trainThresholdString);
+                        }
+
                         SharedPreferences.Editor editor = m_preferences.edit();
                         editor.putBoolean("Settings.CardPickup", cardPickupToggleEnabled);
                         editor.putBoolean("Settings.AutoNextPlayer", autoNextPlayerToggleEnabled);
                         editor.putInt("Settings.StationValue", stationValue);
+                        editor.putInt("Settings.EndGameTrainThreshold", trainThresholdValue);
                         editor.apply();
                         doSettingUpdate();
                         dialog.cancel();

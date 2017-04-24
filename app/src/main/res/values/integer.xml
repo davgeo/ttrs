@@ -11,4 +11,5 @@
         <item>21</item>
     </integer-array>
     <integer name="perStationScore">4</integer>
+    <integer name="endGameTrainThreshold">2</integer>
 </resources>

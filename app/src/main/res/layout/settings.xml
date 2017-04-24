@@ -75,5 +75,28 @@
                 android:maxLength="2"
                 android:hint="@string/settingsStationScoreHint"/>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/settingsTrainThresholdTitle" />
+
+            <EditText
+                android:id="@+id/settingsTrainThresholdEditTxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:maxLength="2"
+                android:hint="@string/settingsTrainThresholdHint"/>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

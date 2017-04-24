@@ -50,4 +50,6 @@
     <string name="settingsAutoNextPlayerToggleBtnTitle">Automatically go to next player:</string>
     <string name="settingsStationScoreTitle">"Set score per unused station:"</string>
     <string name="settingsStationScoreHint">"default"</string>
+    <string name="settingsTrainThresholdTitle">"Set end game train threshold:"</string>
+    <string name="settingsTrainThresholdHint">"default"</string>
 </resources>

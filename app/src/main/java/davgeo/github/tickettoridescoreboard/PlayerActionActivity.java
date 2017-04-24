@@ -3,6 +3,7 @@ package davgeo.github.tickettoridescoreboard;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -194,9 +195,23 @@ public class PlayerActionActivity extends BaseGameActivity {
         int trainCount = Integer.parseInt(view.getTag().toString());
         int[] routeScoreArray = getResources().getIntArray(R.array.trainScores);
 
+        // Update scores and train count
         m_trainScoreArray[m_playerNum-1] += routeScoreArray[trainCount-1];
         m_trainCountArray[m_playerNum-1] -= trainCount;
 
+        // Check if train count goes below threshold value
+        int trainThreshold = m_preferences.getInt("Settings.EndGameTrainThreshold",
+                getResources().getInteger(R.integer.endGameTrainThreshold));
+
+        if(m_trainCountArray[m_playerNum-1] <= trainThreshold) {
+            Toast.makeText(this, String.format(Locale.getDefault(),
+                    "End game approaching - %s has %d or fewer trains remaining",
+                    m_playerNameArray[m_playerNum-1], trainThreshold), Toast.LENGTH_SHORT).show();
+            Button endGameBtn = (Button) findViewById(R.id.endGameBtn);
+            endGameBtn.setTypeface(null, Typeface.BOLD);
+        }
+
+        // Update display
         if(m_preferences.getBoolean("Settings.AutoNextPlayer", true)) {
             goToNextPlayer();
         } else {
@@ -205,6 +220,6 @@ public class PlayerActionActivity extends BaseGameActivity {
     }
 
     // TODO : Add undo button
-    // TODO : Add end of game check when trains run low
     // TODO : Review end of game activity (played trains/station buttons)
+    // TODO : Add player colours
 }
