@@ -90,6 +90,8 @@ public class EndGameActivity extends BaseGameActivity {
             return;
         }
 
+        saveUndoState();
+
         int routeScore = Integer.parseInt(routeScoreString);
         int buttonTag = Integer.parseInt(view.getTag().toString());
         int idx = m_playerNum - 1;
@@ -170,6 +172,7 @@ public class EndGameActivity extends BaseGameActivity {
 
     /** Called when the Played Stations button is pressed **/
     public void playedStations(View view) {
+        saveUndoState();
         m_stationCountArray[m_playerNum-1] -= 1;
         updateScoreTable();
     }
@@ -198,6 +201,8 @@ public class EndGameActivity extends BaseGameActivity {
     public void scoreTrains(View view) {
         int trainCount = Integer.parseInt(view.getTag().toString());
         int[] routeScoreArray = getResources().getIntArray(R.array.trainScores);
+
+        saveUndoState();
 
         m_trainScoreArray[m_playerNum-1] += routeScoreArray[trainCount-1];
         m_trainCountArray[m_playerNum-1] -= trainCount;

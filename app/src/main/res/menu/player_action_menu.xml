@@ -11,4 +11,10 @@
     <item android:id="@+id/actionBarNewGame"
         android:title="@string/actionBarNewGame"
         app:showAsAction="never"/>
+    <item android:id="@+id/actionBarUndo"
+        android:title="@string/actionBarUndo"
+        app:showAsAction="never"/>
+    <item android:id="@+id/actionBarRedo"
+        android:title="@string/actionBarRedo"
+        app:showAsAction="never"/>
 </menu>

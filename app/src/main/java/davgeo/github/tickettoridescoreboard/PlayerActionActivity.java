@@ -93,6 +93,7 @@ public class PlayerActionActivity extends BaseGameActivity {
 
     /** Called when either the Pickup Route/Train Cards buttons are pressed */
     public void pickupCards(View view) {
+        saveUndoState();
         goToNextPlayer();
     }
 
@@ -125,6 +126,8 @@ public class PlayerActionActivity extends BaseGameActivity {
 
     /** Called when the Played Stations button is pressed **/
     public void playedStations(View view) {
+        saveUndoState();
+
         m_stationCountArray[m_playerNum-1] -= 1;
 
         if(m_preferences.getBoolean("Settings.AutoNextPlayer", true)) {
@@ -194,6 +197,8 @@ public class PlayerActionActivity extends BaseGameActivity {
     public void scoreTrains(View view) {
         int trainCount = Integer.parseInt(view.getTag().toString());
         int[] routeScoreArray = getResources().getIntArray(R.array.trainScores);
+
+        saveUndoState();
 
         // Update scores and train count
         m_trainScoreArray[m_playerNum-1] += routeScoreArray[trainCount-1];

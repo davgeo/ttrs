@@ -20,6 +20,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import java.util.LinkedList;
 import java.util.Locale;
 
 public abstract class BaseGameActivity extends AppCompatActivity {
@@ -31,6 +32,9 @@ public abstract class BaseGameActivity extends AppCompatActivity {
     int [] m_cardScoreArray;
     String [] m_playerNameArray;
     boolean m_game_complete;
+
+    LinkedList<Bundle> m_undoBundleQ;
+    LinkedList<Bundle> m_redoBundleQ;
 
     SharedPreferences m_preferences;
 
@@ -115,6 +119,14 @@ public abstract class BaseGameActivity extends AppCompatActivity {
                 newGameDialog.show();
                 return true;
 
+            case R.id.actionBarUndo:
+                doUndo();
+                return true;
+
+            case R.id.actionBarRedo:
+                doRedo();
+                return true;
+
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
@@ -127,11 +139,11 @@ public abstract class BaseGameActivity extends AppCompatActivity {
     protected void saveBundleState(Bundle bundle) {
         bundle.putInt("playerNum", m_playerNum);
         bundle.putInt("noPlayers", m_noPlayers);
-        bundle.putIntArray("trainScoreArray", m_trainScoreArray);
-        bundle.putIntArray("trainCountArray", m_trainCountArray);
-        bundle.putIntArray("stationCountArray", m_stationCountArray);
-        bundle.putIntArray("cardScoreArray", m_cardScoreArray);
-        bundle.putStringArray("playerNameArray", m_playerNameArray);
+        bundle.putIntArray("trainScoreArray", m_trainScoreArray.clone());
+        bundle.putIntArray("trainCountArray", m_trainCountArray.clone());
+        bundle.putIntArray("stationCountArray", m_stationCountArray.clone());
+        bundle.putIntArray("cardScoreArray", m_cardScoreArray.clone());
+        bundle.putStringArray("playerNameArray", m_playerNameArray.clone());
     }
 
     /** Call to return all state in a bundle **/
@@ -288,12 +300,75 @@ public abstract class BaseGameActivity extends AppCompatActivity {
         summaryDialog.show();
     }
 
+    /** Save state for undo action **/
+    protected void saveUndoState() {
+        // Create undo queue if it doesn't exist
+        if(m_undoBundleQ == null)
+            m_undoBundleQ = new LinkedList<>();
+
+        // Only keep 10 undo entries
+        if(m_undoBundleQ.size() > 10)
+            m_undoBundleQ.remove();
+
+        // Clear redo queue if it exists
+        if(m_redoBundleQ != null)
+            m_redoBundleQ.clear();
+
+        // Save state to undo queue
+        Bundle undoBundle = new Bundle();
+        saveBundleState(undoBundle);
+        m_undoBundleQ.add(undoBundle);
+    }
+
+    /** Save state for redo action **/
+    protected void saveRedoState() {
+        // Create redo queue if it doesn't exist
+        if(m_redoBundleQ == null)
+            m_redoBundleQ = new LinkedList<>();
+
+        // Save state to redo queue
+        Bundle redoBundle = new Bundle();
+        saveBundleState(redoBundle);
+        m_redoBundleQ.add(redoBundle);
+    }
+
+    /** Do undo action **/
+    protected void doUndo() {
+        if(m_undoBundleQ != null) {
+            Bundle undoBundle = m_undoBundleQ.pollLast();
+
+            if (undoBundle != null) {
+                saveRedoState();
+                loadBundleState(undoBundle);
+                displayPlayerStats();
+            }
+        }
+    }
+
+    /** Do redo action **/
+    protected void doRedo() {
+        if(m_redoBundleQ != null) {
+            Bundle redoBundle = m_redoBundleQ.pollLast();
+
+            if (redoBundle != null) {
+                // Save state to undo queue
+                Bundle undoBundle = new Bundle();
+                saveBundleState(undoBundle);
+                m_undoBundleQ.add(undoBundle);
+
+                // Load redo state
+                loadBundleState(redoBundle);
+                displayPlayerStats();
+            }
+        }
+    }
+
+    /** Call to display player stats **/
+    abstract protected void displayPlayerStats();
+
     /** Call to implement setting change updates **/
     abstract protected void doSettingUpdate();
 
     /** Call to add extra activity specific behaviour to onCreate method **/
     abstract protected void doActivitySetup();
-
-    /** Call to display player stats **/
-    abstract protected void displayPlayerStats();
 }
