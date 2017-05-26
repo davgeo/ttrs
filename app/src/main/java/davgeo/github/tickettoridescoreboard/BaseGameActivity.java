@@ -80,6 +80,26 @@ public abstract class BaseGameActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        MenuItem undoMenuItem = menu.findItem(R.id.actionBarUndo);
+        undoMenuItem.setEnabled(false);
+        if (m_undoBundleQ != null) {
+            if(m_undoBundleQ.size() > 0) {
+                undoMenuItem.setEnabled(true);
+            }
+        }
+
+        MenuItem redoMenuItem = menu.findItem(R.id.actionBarRedo);
+        redoMenuItem.setEnabled(false);
+        if (m_redoBundleQ != null) {
+            if(m_redoBundleQ.size() > 0) {
+                redoMenuItem.setEnabled(true);
+            }
+        }
+        return true;
+    }
+
     /** Catch menu selection **/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

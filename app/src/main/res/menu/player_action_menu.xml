@@ -2,19 +2,19 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/actionBarSettings"
-        android:title="@string/actionBarSettings"
-        app:showAsAction="never"/>
-    <item android:id="@+id/actionBarSummary"
-        android:title="@string/actionBarSummary"
-        app:showAsAction="never"/>
-    <item android:id="@+id/actionBarNewGame"
-        android:title="@string/actionBarNewGame"
-        app:showAsAction="never"/>
     <item android:id="@+id/actionBarUndo"
         android:title="@string/actionBarUndo"
         app:showAsAction="never"/>
     <item android:id="@+id/actionBarRedo"
         android:title="@string/actionBarRedo"
+        app:showAsAction="never"/>
+    <item android:id="@+id/actionBarSummary"
+        android:title="@string/actionBarSummary"
+        app:showAsAction="never"/>
+    <item android:id="@+id/actionBarSettings"
+        android:title="@string/actionBarSettings"
+        app:showAsAction="never"/>
+    <item android:id="@+id/actionBarNewGame"
+        android:title="@string/actionBarNewGame"
         app:showAsAction="never"/>
 </menu>
