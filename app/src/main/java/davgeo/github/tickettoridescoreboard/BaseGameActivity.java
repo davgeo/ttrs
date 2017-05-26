@@ -218,16 +218,19 @@ public abstract class BaseGameActivity extends AppCompatActivity {
 
         boolean cardPickupToggleEnabledPref = m_preferences.getBoolean("Settings.CardPickup", true);
         boolean autoNextPlayerToggleEnabledPref = m_preferences.getBoolean("Settings.AutoNextPlayer", true);
+        boolean endGamePlayedToggleEnabledPref = m_preferences.getBoolean("Settings.EndGamePlayedButtons", true);
         int stationValuePref = m_preferences.getInt("Settings.StationValue", getResources().getInteger(R.integer.perStationScore));
         int trainThresholdPref = m_preferences.getInt("Settings.EndGameTrainThreshold", getResources().getInteger(R.integer.endGameTrainThreshold));
 
         final ToggleButton cardPickupToggle = (ToggleButton) inflatedView.findViewById(R.id.settingsCardPickupToggle);
         final ToggleButton autoNextPlayerToggle = (ToggleButton) inflatedView.findViewById(R.id.settingsChangePlayerToggle);
+        final ToggleButton endGamePlayedToggle = (ToggleButton) inflatedView.findViewById(R.id.settingsEndGamePlayedToggle);
         final EditText stationValueTxt = (EditText) inflatedView.findViewById(R.id.settingsStationScoreEditTxt);
         final EditText trainThresholdTxt = (EditText) inflatedView.findViewById(R.id.settingsTrainThresholdEditTxt);
 
         cardPickupToggle.setChecked(cardPickupToggleEnabledPref);
         autoNextPlayerToggle.setChecked(autoNextPlayerToggleEnabledPref);
+        endGamePlayedToggle.setChecked(endGamePlayedToggleEnabledPref);
         stationValueTxt.setText(String.format(Locale.getDefault(), "%d", stationValuePref));
         trainThresholdTxt.setText(String.format(Locale.getDefault(), "%d", trainThresholdPref));
 
@@ -239,6 +242,7 @@ public abstract class BaseGameActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         boolean cardPickupToggleEnabled = cardPickupToggle.isChecked();
                         boolean autoNextPlayerToggleEnabled = autoNextPlayerToggle.isChecked();
+                        boolean endGamePlayedToggleEnabled = endGamePlayedToggle.isChecked();
 
                         int stationValue;
                         String stationValueString = stationValueTxt.getText().toString();
@@ -261,6 +265,7 @@ public abstract class BaseGameActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = m_preferences.edit();
                         editor.putBoolean("Settings.CardPickup", cardPickupToggleEnabled);
                         editor.putBoolean("Settings.AutoNextPlayer", autoNextPlayerToggleEnabled);
+                        editor.putBoolean("Settings.EndGamePlayedButtons", endGamePlayedToggleEnabled);
                         editor.putInt("Settings.StationValue", stationValue);
                         editor.putInt("Settings.EndGameTrainThreshold", trainThresholdValue);
                         editor.apply();

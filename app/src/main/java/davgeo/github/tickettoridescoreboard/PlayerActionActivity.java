@@ -224,6 +224,5 @@ public class PlayerActionActivity extends BaseGameActivity {
         }
     }
 
-    // TODO : Review end of game activity (played trains/station buttons)
     // TODO : Add player colours
 }

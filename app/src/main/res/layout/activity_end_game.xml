@@ -85,14 +85,14 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/playStnBtn"
+                android:id="@+id/endGamePlayStnBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="playedStations"
                 android:text="@string/playStnBtn" />
 
             <Button
-                android:id="@+id/playTrainBtn"
+                android:id="@+id/endGamePlayTrainBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="playedTrains"

@@ -29,8 +29,13 @@ public class EndGameActivity extends BaseGameActivity {
     /** Add extra activity specific behaviour to onCreate method **/
     @Override
     protected void doActivitySetup() {
+        // Set game complete
         m_game_complete = true;
 
+        // Configure activity button layout from settings
+        doSettingUpdate();
+
+        // Configure player select spinner
         Spinner spinner = (Spinner) findViewById(R.id.endGameSpinner);
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item, m_playerNameArray);
@@ -61,7 +66,20 @@ public class EndGameActivity extends BaseGameActivity {
     /** Call to implement setting change updates **/
     @Override
     protected void doSettingUpdate() {
+        // Update score table depending on score per station value
         updateScoreTable();
+
+        // Toggle played train and station buttons visibility
+        Button endGamePlayTrainButton = (Button) findViewById(R.id.endGamePlayTrainBtn);
+        Button endGamePlayStationButton = (Button) findViewById(R.id.endGamePlayStnBtn);
+
+        if(m_preferences.getBoolean("Settings.EndGamePlayedButtons", true)) {
+            endGamePlayTrainButton.setVisibility(View.VISIBLE);
+            endGamePlayStationButton.setVisibility(View.VISIBLE);
+        } else {
+            endGamePlayTrainButton.setVisibility(View.GONE);
+            endGamePlayStationButton.setVisibility(View.GONE);
+        }
     }
 
     /** Update score table **/
