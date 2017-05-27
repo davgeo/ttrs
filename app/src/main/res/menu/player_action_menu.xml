@@ -8,6 +8,9 @@
     <item android:id="@+id/actionBarRedo"
         android:title="@string/actionBarRedo"
         app:showAsAction="never"/>
+    <item android:id="@+id/actionBarEditPlayer"
+        android:title="@string/actionBarEditPlayer"
+        app:showAsAction="never"/>
     <item android:id="@+id/actionBarSummary"
         android:title="@string/actionBarSummary"
         app:showAsAction="never"/>

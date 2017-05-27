@@ -6,13 +6,9 @@ import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
-import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +36,7 @@ public class PlayerActionActivity extends BaseGameActivity {
 
         TextView nameTxt = (TextView) findViewById(R.id.playerName);
         nameTxt.setText(m_playerNameArray[idx]);
+        nameTxt.setTextColor(getPlayerColour(m_playerNum));
 
         TextView scoreTxt = (TextView) findViewById(R.id.scoreValueTxt);
         scoreTxt.setText(String.format(Locale.getDefault(), "%d", m_trainScoreArray[idx]));
@@ -148,49 +145,7 @@ public class PlayerActionActivity extends BaseGameActivity {
 
     /** Called when the Edit Player Name button is pressed **/
     public void editName(View view) {
-        final EditText alertEditTxt = new EditText(this);
-        alertEditTxt.setFilters(new InputFilter[]{new InputFilter.LengthFilter(15)});
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setMessage(getResources().getString(R.string.playerNameDialog));
-        alertBuilder.setCancelable(true);
-
-        FrameLayout alertEditTxtContainer = new FrameLayout(this);
-        FrameLayout.LayoutParams params = new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.leftMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
-        params.rightMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
-
-        alertEditTxt.setLayoutParams(params);
-
-        alertEditTxtContainer.addView(alertEditTxt);
-        alertBuilder.setView(alertEditTxtContainer);
-
-        alertBuilder.setPositiveButton(
-                "Accept",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        String newName = alertEditTxt.getText().toString();
-
-                        if(newName.equals("")) {
-                            Toast.makeText(PlayerActionActivity.this, "New player name cannot be blank", Toast.LENGTH_SHORT).show();
-                        } else {
-                            m_playerNameArray[m_playerNum - 1] = newName;
-                            TextView nameTxt = (TextView) findViewById(R.id.playerName);
-                            nameTxt.setText(m_playerNameArray[m_playerNum - 1]);
-                            dialog.cancel();
-                        }
-                    }
-                });
-
-        alertBuilder.setNegativeButton(
-                "Cancel",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog editPlayerNameDialog = alertBuilder.create();
-        editPlayerNameDialog.show();
+         doEditNameDialog();
     }
 
     /** Called when a button is clicked from played trains dialog **/
@@ -223,6 +178,4 @@ public class PlayerActionActivity extends BaseGameActivity {
             displayPlayerStats();
         }
     }
-
-    // TODO : Add player colours
 }

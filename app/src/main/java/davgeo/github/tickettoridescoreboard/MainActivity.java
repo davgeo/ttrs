@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         int [] trainCountArray = new int [noPlayers];
         int [] stationCountArray = new int [noPlayers];
         int [] cardScoreArray = new int [noPlayers];
+        int [] playerColourIndexArray = new int [noPlayers];
         String [] playerNameArray = new String[noPlayers];
 
         // Configure array
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             trainCountArray[i]   = noStartingTrains;
             stationCountArray[i] = noStartingStations;
             cardScoreArray[i]    = 0;
+            playerColourIndexArray[i] = 0;
             playerNameArray[i]   = String.format(Locale.getDefault(), "PLAYER %d", i+1);
         }
 
@@ -97,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         bundle.putIntArray("trainCountArray", trainCountArray);
         bundle.putIntArray("stationCountArray", stationCountArray);
         bundle.putIntArray("cardScoreArray", cardScoreArray);
+        bundle.putIntArray("playerColourIndexArray", playerColourIndexArray);
         bundle.putStringArray("playerNameArray", playerNameArray);
 
         // Add bundle to intent

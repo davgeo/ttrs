@@ -3,6 +3,7 @@ package davgeo.github.tickettoridescoreboard;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,10 +15,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.LinkedList;
@@ -30,6 +34,7 @@ public abstract class BaseGameActivity extends AppCompatActivity {
     int [] m_trainCountArray;
     int [] m_stationCountArray;
     int [] m_cardScoreArray;
+    int [] m_playerColourIndexArray;
     String [] m_playerNameArray;
     boolean m_game_complete;
 
@@ -80,6 +85,7 @@ public abstract class BaseGameActivity extends AppCompatActivity {
         return true;
     }
 
+    /** Configure options menu **/
     @Override
     public boolean onPrepareOptionsMenu (Menu menu) {
         MenuItem undoMenuItem = menu.findItem(R.id.actionBarUndo);
@@ -104,12 +110,24 @@ public abstract class BaseGameActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.actionBarSettings:
-                doSettingsDialog();
+            case R.id.actionBarUndo:
+                doUndo();
+                return true;
+
+            case R.id.actionBarRedo:
+                doRedo();
+                return true;
+
+            case R.id.actionBarEditPlayer:
+                doEditNameDialog();
                 return true;
 
             case R.id.actionBarSummary:
                 doSummaryDialog();
+                return true;
+
+            case R.id.actionBarSettings:
+                doSettingsDialog();
                 return true;
 
             case R.id.actionBarNewGame:
@@ -139,14 +157,6 @@ public abstract class BaseGameActivity extends AppCompatActivity {
                 newGameDialog.show();
                 return true;
 
-            case R.id.actionBarUndo:
-                doUndo();
-                return true;
-
-            case R.id.actionBarRedo:
-                doRedo();
-                return true;
-
             default:
                 // If we got here, the user's action was not recognized.
                 // Invoke the superclass to handle it.
@@ -163,6 +173,7 @@ public abstract class BaseGameActivity extends AppCompatActivity {
         bundle.putIntArray("trainCountArray", m_trainCountArray.clone());
         bundle.putIntArray("stationCountArray", m_stationCountArray.clone());
         bundle.putIntArray("cardScoreArray", m_cardScoreArray.clone());
+        bundle.putIntArray("playerColourIndexArray", m_playerColourIndexArray.clone());
         bundle.putStringArray("playerNameArray", m_playerNameArray.clone());
     }
 
@@ -174,6 +185,7 @@ public abstract class BaseGameActivity extends AppCompatActivity {
         m_trainScoreArray = bundle.getIntArray("trainScoreArray");
         m_trainCountArray = bundle.getIntArray("trainCountArray");
         m_cardScoreArray = bundle.getIntArray("cardScoreArray");
+        m_playerColourIndexArray = bundle.getIntArray("playerColourIndexArray");
         m_stationCountArray = bundle.getIntArray("stationCountArray");
     }
 
@@ -209,8 +221,6 @@ public abstract class BaseGameActivity extends AppCompatActivity {
 
     /** Inflate setting dialog **/
     protected void doSettingsDialog() {
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-
         // Load dialog from custom layout xml
         LayoutInflater inflater = this.getLayoutInflater();
 
@@ -234,6 +244,7 @@ public abstract class BaseGameActivity extends AppCompatActivity {
         stationValueTxt.setText(String.format(Locale.getDefault(), "%d", stationValuePref));
         trainThresholdTxt.setText(String.format(Locale.getDefault(), "%d", trainThresholdPref));
 
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setView(inflatedView);
 
         alertBuilder.setPositiveButton(
@@ -323,6 +334,79 @@ public abstract class BaseGameActivity extends AppCompatActivity {
 
         final AlertDialog summaryDialog = alertBuilder.create();
         summaryDialog.show();
+    }
+
+    /** Called when the Edit Player Name button is pressed **/
+    protected void doEditNameDialog() {
+        // Load dialog from custom layout xml
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View inflatedView = inflater.inflate(R.layout.edit_player_info, null);
+
+        // Configure player select spinner
+        final Spinner playerColourSpinner = (Spinner) inflatedView.findViewById(R.id.editPlayerDialogChangeColourSpinner);
+        final String [] spinnerColourOptionArray = getResources().getStringArray(R.array.editPlayerSpinnerColours);
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, spinnerColourOptionArray);
+        playerColourSpinner.setAdapter(spinnerArrayAdapter);
+        playerColourSpinner.setSelection(m_playerColourIndexArray[m_playerNum-1]);
+
+        // Get handle to player name edit text
+        final EditText changePlayerNameEditText = (EditText) inflatedView.findViewById(R.id.editPlayerDialogChangeName);
+
+        // Setup alert dialog
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setView(inflatedView);
+
+        alertBuilder.setPositiveButton(
+                "Accept",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        String newName = changePlayerNameEditText.getText().toString();
+
+                        if(newName.equals("")) {
+                            Toast.makeText(BaseGameActivity.this, "New player name cannot be blank", Toast.LENGTH_SHORT).show();
+                        } else {
+                            m_playerNameArray[m_playerNum - 1] = newName;
+                        }
+
+                        m_playerColourIndexArray[m_playerNum-1] = playerColourSpinner.getSelectedItemPosition();
+                        displayPlayerStats();
+                        dialog.cancel();
+                    }
+                });
+
+        alertBuilder.setNegativeButton(
+                "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog editPlayerNameDialog = alertBuilder.create();
+        editPlayerNameDialog.show();
+    }
+
+    /** Convert colour index array values to actual colour values **/
+    protected int getPlayerColour(int playerNum) {
+        switch (m_playerColourIndexArray[playerNum-1]) {
+            case 0: // None
+                return Color.GRAY;
+            case 1: // Blue
+                return Color.BLUE;
+            case 2: // Red
+                return Color.RED;
+            case 3: // Green
+                return Color.GREEN;
+            case 4: // Yellow
+                return Color.YELLOW;
+            case 5: // Black
+                return Color.BLACK;
+            default:
+                return Color.GRAY;
+
+        }
     }
 
     /** Save state for undo action **/

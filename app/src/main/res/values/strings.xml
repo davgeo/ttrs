@@ -13,13 +13,13 @@
     <string name="scoreTxt">"SCORE : "</string>
     <string name="trainsTxt">"TRAINS : "</string>
     <string name="stationsTxt">"STATIONS : "</string>
-    <string name="playerNameDialog">"Change player name"</string>
     <string name="playedTrainsTitle">"Select route length"</string>
     <string name="playedTrainsDialogBtn">"TRAINS : %1$d (SCORE : %2$2d)"</string>
     <string name="actionBarSettings">Settings</string>
     <string name="actionBarSummary">Summary</string>
     <string name="actionBarUndo">Undo</string>
     <string name="actionBarRedo">Redo</string>
+    <string name="actionBarEditPlayer">Edit Player Info</string>
     <string name="actionBarNewGame">New Game</string>
     <string name="actionBarNewGameDialog">"Exit current game?"</string>
     <string name="summaryDialogTitle">"Summary"</string>
@@ -55,4 +55,15 @@
     <string name="settingsStationScoreHint">"default"</string>
     <string name="settingsTrainThresholdTitle">"Set end game train threshold:"</string>
     <string name="settingsTrainThresholdHint">"default"</string>
+    <string name="editPlayerDialogChangeName">"Change player name"</string>
+    <string name="editPlayerDialogChangeNameHint">"Enter new player name"</string>
+    <string name="editPlayerDialogChangeColour">"Select player colour"</string>
+    <string-array name="editPlayerSpinnerColours">
+        <item>"None"</item>
+        <item>"Blue"</item>
+        <item>"Red"</item>
+        <item>"Green"</item>
+        <item>"Yellow"</item>
+        <item>"Black"</item>
+    </string-array>
 </resources>

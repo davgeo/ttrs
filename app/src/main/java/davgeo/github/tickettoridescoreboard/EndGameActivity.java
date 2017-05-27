@@ -59,7 +59,9 @@ public class EndGameActivity extends BaseGameActivity {
     @Override
     protected void displayPlayerStats() {
         Spinner spinner = (Spinner) findViewById(R.id.endGameSpinner);
-        spinner.setSelection(m_playerNum - 1);
+        spinner.setSelection(m_playerNum - 1, true);
+        TextView spinnerSelection = (TextView) spinner.getSelectedView();
+        spinnerSelection.setTextColor(getPlayerColour(m_playerNum));
         updateScoreTable();
     }
 
