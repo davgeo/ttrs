@@ -57,6 +57,7 @@ public class ScoreSheetActivity extends BaseGameActivity {
 
             TextView nameTxtView = new TextView(this);
             nameTxtView.setText(m_playerNameArray[i[0]]);
+            nameTxtView.setTextColor(getPlayerColour(i[0]+1));
             nameTxtView.setLayoutParams(new TableRow.LayoutParams(1));
             dialogTableRow.addView(nameTxtView);
 
